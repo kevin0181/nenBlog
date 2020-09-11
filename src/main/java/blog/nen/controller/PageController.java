@@ -1,16 +1,20 @@
 package blog.nen.controller;
 
 import blog.nen.Exception.Exception;
+import blog.nen.Exception.NotFoundException;
 import blog.nen.Exception.SameEmailException;
 import blog.nen.config.DBConfig;
 import blog.nen.config.UserConfig;
-import blog.nen.dao.LoginDto;
-import blog.nen.dao.SignUpDto;
+import blog.nen.dto.LoginDto;
+import blog.nen.dto.SignUpDto;
+import blog.nen.service.LoginService;
 import blog.nen.service.SignUpService;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+
+import javax.servlet.http.HttpSession;
 
 @Controller
 public class PageController {
@@ -24,15 +28,24 @@ public class PageController {
     }
 
     @PostMapping("login")
-    public String login(LoginDto loginDao) {
+    public String login(LoginDto loginDto, HttpSession session) {
         //로그인 시 메인페이지로
+        try {
+            LoginService loginService = ctx.getBean(LoginService.class);
+            loginService.loginService(loginDto, session);
+
+            LoginDto loginDto1 = (LoginDto) session.getAttribute("loginIng");
+
+        } catch (NotFoundException e) {
+            return "Exception";
+        }
         return "main";
     }
 
 
     @GetMapping("signPage")
     public String signPage() {
-        //회원 가입 페이지
+        //회원 가입 페이지로 이동
         return "signPage";
     }
 
@@ -41,7 +54,7 @@ public class PageController {
         //회원 가입 후 index 페이지로 리다이렉트
         SignUpService signUpService = ctx.getBean(SignUpService.class);
         try {
-            signUpService.signUp(signUpDto);
+            signUpService.signUpService(signUpDto);
         } catch (SameEmailException e) {
             return "Exception";
         } catch (Exception e) {

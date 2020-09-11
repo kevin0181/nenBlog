@@ -1,4 +1,4 @@
-package blog.nen.dao;
+package blog.nen.dto;
 
 public class SignUpDto {
     private String Email;

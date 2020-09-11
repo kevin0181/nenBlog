@@ -1,8 +1,13 @@
-package blog.nen.dao;
+package blog.nen.dto;
 
 public class LoginDto {
     private String Email;
     private String Password;
+
+    public LoginDto(String email, String password) {
+        Email = email;
+        Password = password;
+    }
 
     public String getEmail() {
         return Email;

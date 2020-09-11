@@ -1,5 +1,7 @@
 package blog.nen.dao;
 
+import blog.nen.dto.LoginDto;
+import blog.nen.dto.SignUpDto;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import javax.sql.DataSource;
@@ -14,17 +16,17 @@ public class UserDao {
         this.jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
-    public SignUpDto selectUser(SignUpDto signUpDto) {
+    public SignUpDto selectUser(String email) {
         // 회원 가입 시 같은 이메일이 있는지 검사하는 부분. (전화번호도 추가하자)
         List<SignUpDto> results = jdbcTemplate.query("select * from userinfo where EMAIL = ?",
                 (ResultSet rs, int rowNum) -> {
-                    SignUpDto signUpDto1 = new SignUpDto(
+                    SignUpDto signUpDto = new SignUpDto(
                             rs.getString("EMAIL"),
                             rs.getString("PASSWORD"),
                             rs.getString("PHONE")
                     );
-                    return signUpDto1;
-                }, signUpDto.getEmail());
+                    return signUpDto;
+                }, email);
 
         return results.isEmpty() ? null : results.get(0);
 
@@ -46,8 +48,17 @@ public class UserDao {
         return true;
     }
 
-    public LoginDto login() {
+    public List<LoginDto> login(String email, String password) {
         //로그인
-        return null;
+        List<LoginDto> results = jdbcTemplate.query("select EMAIL, PASSWORD from userinfo where EMAIL = ? and PASSWORD = ?",
+                (ResultSet rs, int rowNum) -> {
+                    LoginDto loginDto = new LoginDto(
+                            rs.getString("EMAIL"),
+                            rs.getString("PASSWORD")
+                    );
+                    return loginDto;
+                }, email, password);
+        return results;
     }
 }
+
