@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>회원가입</title>
+    <link rel="stylesheet" href="css/Login_form.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container Login-container SignUp-container">
+    <form class="form-horizontal" action="signUp" method="post">
+        <div class="form-group">
+            <p class="title"><a href="index" class="title">넨이의 블로그</a></p>
+            <p class="small-title">회원가입</p>
+            <label for="Email" class="col-sm-2 control-label">Email</label>
+            <div class="col-sm-8">
+                <input type="email" class="form-control" id="Email" name="Email" placeholder="Email">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="Password" class="col-sm-2 control-label">Password</label>
+            <div class="col-sm-8">
+                <input type="password" class="form-control" id="Password" name="Password"
+                       placeholder="Password">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="Phone" class="col-sm-2 control-label">Phone</label>
+            <div class="col-sm-8">
+                <input type="text" class="form-control"  id="Phone" name="Phone"
+                       placeholder="Phone-Number">
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button type="submit" class="btn btn-primary">Sign Up</button>
+            </div>
+        </div>
+    </form>
+</div>
+</body>
+</html>
