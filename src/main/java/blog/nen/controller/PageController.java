@@ -13,6 +13,7 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpSession;
 
@@ -50,17 +51,22 @@ public class PageController {
     }
 
     @PostMapping("signUp")
-    public String signUp(SignUpDto signUpDto) {
+    public ModelAndView signUp(SignUpDto signUpDto) {
         //회원 가입 후 index 페이지로 리다이렉트
+        ModelAndView mav = new ModelAndView();
         SignUpService signUpService = ctx.getBean(SignUpService.class);
         try {
             signUpService.signUpService(signUpDto);
         } catch (SameEmailException e) {
-            return "Exception";
+            mav.addObject("name", "sameEmail");
+            mav.setViewName("Exception");
+            return mav;
         } catch (Exception e) {
-            return "Exception";
+            mav.setViewName("Exception");
+            return mav;
         }
-        return "redirect:/index";
+        mav.setViewName("index");
+        return mav;
     }
 
 }
