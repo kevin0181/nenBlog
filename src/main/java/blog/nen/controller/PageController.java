@@ -21,6 +21,7 @@ import javax.servlet.http.HttpSession;
 public class PageController {
 
     private final AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext(UserConfig.class, DBConfig.class);
+    private ModelAndView mav = new ModelAndView();
 
     @GetMapping("index")
     public String index() {
@@ -28,19 +29,28 @@ public class PageController {
         return "redirect:";
     }
 
-    @PostMapping("login")
-    public String login(LoginDto loginDto, HttpSession session) {
+    @PostMapping("main")
+    public ModelAndView login(LoginDto loginDto, HttpSession session) {
         //로그인 시 메인페이지로
         try {
             LoginService loginService = ctx.getBean(LoginService.class);
             loginService.loginService(loginDto, session);
 
-            LoginDto loginDto1 = (LoginDto) session.getAttribute("loginIng");
-
         } catch (NotFoundException e) {
-            return "Exception";
+            mav.addObject("name", "NotFound");
+            mav.setViewName("Exception");
+            return mav;
         }
-        return "main";
+        mav.setViewName("main");
+        return mav;
+    }
+
+    @GetMapping("main")
+    public ModelAndView mainGetException() {
+        //주소창에 쳤을때 익셉션
+        mav.addObject("name", "mainGetException");
+        mav.setViewName("Exception");
+        return mav;
     }
 
 
@@ -53,7 +63,6 @@ public class PageController {
     @PostMapping("signUp")
     public ModelAndView signUp(SignUpDto signUpDto) {
         //회원 가입 후 index 페이지로 리다이렉트
-        ModelAndView mav = new ModelAndView();
         SignUpService signUpService = ctx.getBean(SignUpService.class);
         try {
             signUpService.signUpService(signUpDto);
@@ -65,7 +74,15 @@ public class PageController {
             mav.setViewName("Exception");
             return mav;
         }
-        mav.setViewName("index");
+        mav.setViewName("redirect:index");
+        return mav;
+    }
+
+    @GetMapping("signUp")
+    public ModelAndView signUpGetException() {
+        // signUp 주소창으로 입력했을때 익셉션
+        mav.addObject("name", "signUpGetException");
+        mav.setViewName("Exception");
         return mav;
     }
 
