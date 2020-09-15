@@ -6,6 +6,6 @@
 </head>
 <body>
 에러페이지
-<p th:text="${ExceptionName}"></p>
+<p th:if="${ExceptionName} == 'sameEmailException'">하</p>
 </body>
 </html>
