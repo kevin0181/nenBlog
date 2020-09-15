@@ -11,6 +11,7 @@ import blog.nen.service.LoginService;
 import blog.nen.service.SignUpService;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
@@ -30,27 +31,24 @@ public class PageController {
     }
 
     @PostMapping("main")
-    public ModelAndView login(LoginDto loginDto, HttpSession session) {
+    public String login(LoginDto loginDto, HttpSession session, Model model) {
         //로그인 시 메인페이지로
         try {
             LoginService loginService = ctx.getBean(LoginService.class);
             loginService.loginService(loginDto, session);
 
         } catch (NotFoundException e) {
-            mav.addObject("name", "NotFound");
-            mav.setViewName("Exception");
-            return mav;
+            model.addAttribute("ExceptionName", "NotFoundException");
+            return "Exception";
         }
-        mav.setViewName("main");
-        return mav;
+        return "main";
     }
 
     @GetMapping("main")
-    public ModelAndView mainGetException() {
+    public String mainGetException(Model model) {
         //주소창에 쳤을때 익셉션
-        mav.addObject("name", "mainGetException");
-        mav.setViewName("Exception");
-        return mav;
+        model.addAttribute("ExceptionName", "mainGetException");
+        return "Exception";
     }
 
 
@@ -61,29 +59,26 @@ public class PageController {
     }
 
     @PostMapping("signUp")
-    public ModelAndView signUp(SignUpDto signUpDto) {
+    public String signUp(SignUpDto signUpDto, Model model) {
         //회원 가입 후 index 페이지로 리다이렉트
         SignUpService signUpService = ctx.getBean(SignUpService.class);
         try {
             signUpService.signUpService(signUpDto);
         } catch (SameEmailException e) {
-            mav.addObject("name", "sameEmail");
-            mav.setViewName("Exception");
-            return mav;
+            model.addAttribute("ExceptionName", "sameEmailException");
+            return "Exception";
         } catch (Exception e) {
-            mav.setViewName("Exception");
-            return mav;
+            model.addAttribute("ExceptionName", "Exception");
+            return "Exception";
         }
-        mav.setViewName("redirect:index");
-        return mav;
+        return "redirect:index";
     }
 
     @GetMapping("signUp")
-    public ModelAndView signUpGetException() {
+    public String signUpGetException(Model model) {
         // signUp 주소창으로 입력했을때 익셉션
-        mav.addObject("name", "signUpGetException");
-        mav.setViewName("Exception");
-        return mav;
+        model.addAttribute("ExceptionName", "singUpGetException");
+        return "Exception";
     }
 
 }
