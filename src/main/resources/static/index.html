@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>넨이의 블로그</title>
@@ -11,6 +11,7 @@
 <div class="container Login-container">
     <form class="form-horizontal" action="main" method="post">
         <div class="form-group">
+            <p th:text="#{title}"></p>
             <p class="title"><a href="index">넨이의 블로그</a></p>
             <label for="Email" class="col-sm-2 control-label">Email</label>
             <div class="col-sm-8">
