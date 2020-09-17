@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>회원가입</title>
@@ -8,32 +8,37 @@
 </head>
 <body>
 <div class="container Login-container SignUp-container">
-    <form class="form-horizontal" action="signUp" method="post">
+    <form class="form-horizontal" th:action="@{/signUp}" method="post" th:object="${signUpDto}">
         <div class="form-group">
-            <p class="title"><a href="index" class="title">넨이의 블로그</a></p>
-            <p class="small-title">회원가입</p>
-            <label for="Email" class="col-sm-2 control-label">Email</label>
+            <p class="title"><a href="index" class="title" th:text="#{title}"></a></p>
+            <p class="small-title" th:text="#{signUp.title}"></p>
+            <label for="Email" class="col-sm-2 control-label" th:text="#{email}"></label>
             <div class="col-sm-8">
                 <input type="email" class="form-control" id="Email" name="Email" placeholder="Email">
+<!--                <p th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></p>-->
+                <!-- 같은 이메일이 있을 시 에러 -->
+                <p th:if="${sameEmailError != null}" th:text="#{sameEmail.Error}" class="text-danger"
+                   id="error-message">
+                    sameEmailError</p>
             </div>
         </div>
         <div class="form-group">
-            <label for="Password" class="col-sm-2 control-label">Password</label>
+            <label for="Password" class="col-sm-2 control-label" th:text="#{password}"></label>
             <div class="col-sm-8">
                 <input type="password" class="form-control" id="Password" name="Password"
                        placeholder="Password">
             </div>
         </div>
         <div class="form-group">
-            <label for="Phone" class="col-sm-2 control-label">Phone</label>
+            <label for="Phone" class="col-sm-2 control-label" th:text="#{phone}"></label>
             <div class="col-sm-8">
-                <input type="text" class="form-control"  id="Phone" name="Phone"
+                <input type="text" class="form-control" id="Phone" name="Phone"
                        placeholder="Phone-Number">
             </div>
         </div>
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
-                <button type="submit" class="btn btn-primary">Sign Up</button>
+                <button type="submit" class="btn btn-primary" th:text="#{signUp}"></button>
             </div>
         </div>
     </form>
