@@ -30,6 +30,11 @@ public class PageController {
     private ModelAndView mav = new ModelAndView();
 
 
+    @GetMapping("/")
+    public String startPage(@ModelAttribute("loginDto") LoginDto loginDto) {
+        return "index";
+    }
+
     @GetMapping("index")
     public String index() {
         //redirect 시 '/'가 없으면 맵핑값을 기준으로 redirect 됨
@@ -37,8 +42,13 @@ public class PageController {
     }
 
     @PostMapping("main")
-    public String login(LoginDto loginDto, Errors errors, HttpSession session, Model model) {
+    public String login(@Valid LoginDto loginDto, BindingResult bindingResult, HttpSession session, Model model) {
         //로그인 시 메인페이지로
+
+        if (bindingResult.hasErrors()) {
+            return "index";
+        }
+
         try {
             LoginService loginService = ctx.getBean(LoginService.class);
             loginService.loginService(loginDto, session);

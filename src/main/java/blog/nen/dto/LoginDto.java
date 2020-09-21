@@ -1,27 +1,32 @@
 package blog.nen.dto;
 
-public class LoginDto {
-    private String Email;
-    private String Password;
+import javax.validation.constraints.NotBlank;
 
-    public LoginDto(String email, String password) {
-        Email = email;
-        Password = password;
+public class LoginDto {
+
+    @NotBlank
+    private String email;
+    @NotBlank
+    private String password;
+
+    public LoginDto(@NotBlank String email, @NotBlank String password) {
+        this.email = email;
+        this.password = password;
     }
 
     public String getEmail() {
-        return Email;
+        return email;
     }
 
     public void setEmail(String email) {
-        Email = email;
+        this.email = email;
     }
 
     public String getPassword() {
-        return Password;
+        return password;
     }
 
     public void setPassword(String password) {
-        Password = password;
+        this.password = password;
     }
 }

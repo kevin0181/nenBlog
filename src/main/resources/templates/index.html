@@ -8,19 +8,25 @@
 </head>
 <body>
 <div class="container Login-container">
-    <form class="form-horizontal" action="main" method="post">
+    <form class="form-horizontal" action="main" method="post" th:object="${loginDto}">
         <div class="form-group">
             <p class="title"><a href="index" th:text="#{title}"></a></p>
             <label for="Email" class="col-sm-2 control-label" th:text="#{email}"></label>
             <div class="col-sm-8">
-                <input type="email" class="form-control" id="Email" name="Email" placeholder="Email">
+                <input type="email" class="form-control" id="Email" th:field="*{email}" placeholder="Email">
+                <!-- 이메일 에러 -->
+                <p th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="text-danger"
+                   id="error-message"></p>
             </div>
         </div>
         <div class="form-group">
             <label for="Password" class="col-sm-2 control-label" th:text="#{password}"></label>
             <div class="col-sm-8">
-                <input type="password" class="form-control" id="Password" name="Password"
+                <input type="password" class="form-control" id="Password" th:field="*{password}"
                        placeholder="Password">
+                <!-- 패스워드 에러 -->
+                <p th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="text-danger"
+                   id="error-message"></p>
             </div>
         </div>
         <div class="form-group">
@@ -36,7 +42,8 @@
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
                 <!-- 이메일이나 비밀번호가 맞지 않을때 오류 -->
-                <p th:if="${NotFoundError != null}" th:text="#{Email.Password.Error}" class="text-danger"></p>
+
+
                 <button type="submit" class="btn btn-primary" th:text="#{signIn}"></button>
                 <button type="button" class="btn btn-default" onclick="location.href='signPage'"
                         th:text="#{signUp}"></button>
