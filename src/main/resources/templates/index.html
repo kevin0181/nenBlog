@@ -16,7 +16,7 @@
                 <input type="email" class="form-control" id="Email" th:field="*{email}" placeholder="Email">
                 <!-- 이메일 에러 -->
                 <p th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="text-danger"
-                   id="error-message"></p>
+                   id="error-message">에러 메시지</p>
             </div>
         </div>
         <div class="form-group">
@@ -26,7 +26,7 @@
                        placeholder="Password">
                 <!-- 패스워드 에러 -->
                 <p th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="text-danger"
-                   id="error-message"></p>
+                   id="error-message">에러 메시지</p>
             </div>
         </div>
         <div class="form-group">
@@ -42,8 +42,7 @@
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
                 <!-- 이메일이나 비밀번호가 맞지 않을때 오류 -->
-
-
+                <p th:if="${#fields.hasErrors('ErrorCode')}" th:errors="*{ErrorCode}" class="text-danger">에러 메시지</p>
                 <button type="submit" class="btn btn-primary" th:text="#{signIn}"></button>
                 <button type="button" class="btn btn-default" onclick="location.href='signPage'"
                         th:text="#{signUp}"></button>

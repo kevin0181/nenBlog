@@ -3,18 +3,17 @@ package blog.nen.controller;
 import blog.nen.Exception.Exception;
 import blog.nen.Exception.NotFoundException;
 import blog.nen.Exception.SameEmailException;
+import blog.nen.Exception.WrongException;
 import blog.nen.config.DBConfig;
 import blog.nen.config.UserConfig;
 import blog.nen.dto.LoginDto;
 import blog.nen.dto.SignUpDto;
 import blog.nen.service.LoginService;
 import blog.nen.service.SignUpService;
-import blog.nen.validation.SignUpDtoValidation;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -42,7 +41,7 @@ public class PageController {
     }
 
     @PostMapping("main")
-    public String login(@Valid LoginDto loginDto, BindingResult bindingResult, HttpSession session, Model model) {
+    public String login(@Valid LoginDto loginDto, BindingResult bindingResult, HttpSession session) {
         //로그인 시 메인페이지로
 
         if (bindingResult.hasErrors()) {
@@ -54,7 +53,10 @@ public class PageController {
             loginService.loginService(loginDto, session);
 
         } catch (NotFoundException e) {
-            model.addAttribute("NotFoundError", "없는 이메일 입니다.");
+            bindingResult.rejectValue("ErrorCode", "notFound.Error");
+            return "index";
+        } catch (WrongException e) {
+            bindingResult.rejectValue("ErrorCode", "Wrong.Error");
             return "index";
         }
         return "main";
@@ -86,7 +88,7 @@ public class PageController {
         try {
             signUpService.signUpService(signUpDto);
         } catch (SameEmailException e) {
-            model.addAttribute("sameEmailError", "이미 있는 이메일 입니다.");
+            bindingResult.rejectValue("email", "sameEmail.Error");
             return "signPage";
         } catch (Exception e) {
             model.addAttribute("ExceptionName", "Exception");

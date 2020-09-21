@@ -9,6 +9,8 @@ public class LoginDto {
     @NotBlank
     private String password;
 
+    private String ErrorCode;
+
     public LoginDto(@NotBlank String email, @NotBlank String password) {
         this.email = email;
         this.password = password;
@@ -28,5 +30,13 @@ public class LoginDto {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getErrorCode() {
+        return ErrorCode;
+    }
+
+    public void setErrorCode(String errorCode) {
+        ErrorCode = errorCode;
     }
 }
