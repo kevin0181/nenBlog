@@ -9,6 +9,7 @@ import blog.nen.dto.LoginDto;
 import blog.nen.dto.SignUpDto;
 import blog.nen.service.LoginService;
 import blog.nen.service.SignUpService;
+import blog.nen.validation.SignUpDtoValidation;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,7 +18,6 @@ import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpSession;
@@ -37,7 +37,7 @@ public class PageController {
     }
 
     @PostMapping("main")
-    public String login(LoginDto loginDto, HttpSession session, Model model) {
+    public String login(LoginDto loginDto, Errors errors, HttpSession session, Model model) {
         //로그인 시 메인페이지로
         try {
             LoginService loginService = ctx.getBean(LoginService.class);
@@ -59,21 +59,19 @@ public class PageController {
 
 
     @GetMapping("signPage")
-    public String signPage() {
+    public String signPage(@ModelAttribute("signUpDto") SignUpDto signUpDto) {
         //회원 가입 페이지로 이동
         return "signPage";
     }
 
     @PostMapping("signUp")
     public String signUp(@Valid SignUpDto signUpDto, BindingResult bindingResult, Model model) {
+        //회원 가입 후 index 페이지로 리다이렉트
 
         if (bindingResult.hasErrors()) {
-            System.out.println(bindingResult.getAllErrors());
-            model.addAttribute("signUpDto", signUpDto);
             return "signPage";
         }
 
-        //회원 가입 후 index 페이지로 리다이렉트
         SignUpService signUpService = ctx.getBean(SignUpService.class);
         try {
             signUpService.signUpService(signUpDto);

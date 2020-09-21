@@ -16,8 +16,6 @@ dependencies {
     compile 'org.springframework.boot:spring-boot-starter-thymeleaf'
     compile 'org.springframework.boot:spring-boot-starter-web'
     compile 'org.springframework.boot:spring-boot-starter-validation'
-//    compile 'javax.validation:validation-api:1.1.0.Final'
-//    compile 'org.hibernate:hibernate-validator:5.4.2.Final'
     implementation 'org.springframework:spring-jdbc:5.0.2.RELEASE'
     implementation 'mysql:mysql-connector-java:5.1.45'
     implementation 'org.apache.tomcat:tomcat-jdbc:8.5.27'

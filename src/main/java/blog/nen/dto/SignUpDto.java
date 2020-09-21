@@ -1,48 +1,48 @@
 package blog.nen.dto;
 
-import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
 public class SignUpDto {
-    @NotBlank
-    @Email
-    @Size(min = 1)
-    private String Email;
-    //    @NotEmpty
-    private String Password;
-    //    @NotEmpty
-    private String Phone;
 
-    public SignUpDto(String email, String password, String phone) {
-        Email = email;
-        Password = password;
-        Phone = phone;
+    @NotBlank
+    @Size(min = 8, max = 16)
+    private String email;
+    @NotBlank
+    private String password;
+    @NotBlank
+    private String phone;
+
+    public SignUpDto(@NotBlank @Size(min = 1) String email, String password, String phone) {
+        this.email = email;
+        this.password = password;
+        this.phone = phone;
     }
 
     public String getEmail() {
-        return Email;
+        return email;
     }
 
     public void setEmail(String email) {
-        Email = email;
+        this.email = email;
     }
 
     public String getPassword() {
-        return Password;
+        return password;
     }
 
     public void setPassword(String password) {
-        Password = password;
+        this.password = password;
     }
 
     public String getPhone() {
-        return Phone;
+        return phone;
     }
 
     public void setPhone(String phone) {
-        Phone = phone;
+        this.phone = phone;
     }
 }

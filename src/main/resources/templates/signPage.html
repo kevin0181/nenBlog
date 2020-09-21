@@ -8,32 +8,38 @@
 </head>
 <body>
 <div class="container Login-container SignUp-container">
-    <form class="form-horizontal" th:action="@{/signUp}" method="post" th:object="${signUpDto}">
+    <form class="form-horizontal" th:action="@{/signUp}" th:method="post" th:object="${signUpDto}">
         <div class="form-group">
             <p class="title"><a href="index" class="title" th:text="#{title}"></a></p>
             <p class="small-title" th:text="#{signUp.title}"></p>
             <label for="Email" class="col-sm-2 control-label" th:text="#{email}"></label>
             <div class="col-sm-8">
-                <input type="email" class="form-control" id="Email" name="Email" placeholder="Email">
-<!--                <p th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></p>-->
-                <!-- 같은 이메일이 있을 시 에러 -->
-                <p th:if="${sameEmailError != null}" th:text="#{sameEmail.Error}" class="text-danger"
-                   id="error-message">
-                    sameEmailError</p>
+                <input type="email" class="form-control" id="Email" th:field="*{email}"
+                       placeholder="Email">
+                <!-- 이메일 에러 처리 -->
+                <p th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="text-danger" id="error-message">
+                    에러
+                    메시지</p>
             </div>
         </div>
         <div class="form-group">
             <label for="Password" class="col-sm-2 control-label" th:text="#{password}"></label>
             <div class="col-sm-8">
-                <input type="password" class="form-control" id="Password" name="Password"
+                <input type="password" class="form-control" id="Password" th:field="*{password}"
                        placeholder="Password">
+                <!-- 패스워드 에러 처리 -->
+                <p th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="text-danger"
+                   id="error-message">에러 메시지</p>
             </div>
         </div>
         <div class="form-group">
             <label for="Phone" class="col-sm-2 control-label" th:text="#{phone}"></label>
             <div class="col-sm-8">
-                <input type="text" class="form-control" id="Phone" name="Phone"
+                <input type="text" class="form-control" id="Phone" th:field="*{phone}"
                        placeholder="Phone-Number">
+                <!-- 번호 에러 처리 -->
+                <p th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}" class="text-danger" id="error-message">에러
+                    메시지</p>
             </div>
         </div>
         <div class="form-group">
