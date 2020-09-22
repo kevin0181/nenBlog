@@ -17,8 +17,9 @@
                 <input type="email" class="form-control" id="Email" th:field="*{email}"
                        placeholder="Email">
                 <!-- 이메일 에러 처리 -->
-                <p th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="text-danger" id="error-message">
-                    에러 메시지</p>
+                <small th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="text-danger"
+                       id="error-message">
+                    에러 메시지</small>
             </div>
         </div>
         <div class="form-group">
@@ -27,8 +28,8 @@
                 <input type="password" class="form-control" id="Password" th:field="*{password}"
                        placeholder="Password">
                 <!-- 패스워드 에러 처리 -->
-                <p th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="text-danger"
-                   id="error-message">에러 메시지</p>
+                <small th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="text-danger"
+                       id="error-message">에러 메시지</small>
             </div>
         </div>
         <div class="form-group">
@@ -37,8 +38,9 @@
                 <input type="text" class="form-control" id="Phone" th:field="*{phone}"
                        placeholder="Phone-Number">
                 <!-- 번호 에러 처리 -->
-                <p th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}" class="text-danger" id="error-message">에러
-                    메시지</p>
+                <small th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}" class="text-danger"
+                       id="error-message">에러
+                    메시지</small>
             </div>
         </div>
         <div class="form-group">

@@ -5,10 +5,22 @@
     <meta charset="UTF-8">
     <title>메인</title>
 </head>
-<div layout:fragment="content">
-    <div th:if="${session.userLogin}">
-        <p th:text="${session.userLogin.email}">이메일</p>
-        <p th:text="${session.userLogin.password}">패스워드</p>
+<div layout:fragment="content" class="container mt-60px">
+    <button type="button" class="btn btn-danger shadow-lg rounded" style="margin-bottom: 5px;" th:text="#{writing}"
+            onclick="location.href='input_board'"/>
+    <div class="card-columns">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Card title</h5>
+                <p class="card-text">This card has supporting text below as a natural lead-in to additional content.</p>
+                <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+                <footer class="blockquote-footer">
+                    <small class="text-muted">
+                        카테고리 <cite title="Source Title">Source Title</cite>
+                    </small>
+                </footer>
+            </div>
+        </div>
     </div>
 </div>
 </html>
