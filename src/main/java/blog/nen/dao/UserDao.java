@@ -34,6 +34,14 @@ public class UserDao {
 
     public boolean insert(SignUpDto signUpDto) {
         // 회원가입
+        //USERAUTH 테이블에 데이터 입력 (권한 테이블)
+        try {
+            jdbcTemplate.update("insert into USER_AUTH(EMAIL,AUTH) values (?,?)", signUpDto.getEmail(), false);
+        } catch (Exception e) {
+            return false;
+        }
+
+        //USERINFO 테이블에 데이터 입력
         try {
             jdbcTemplate.update("insert into userinfo (EMAIL,PASSWORD,PHONE) values (?,?,?)",
                     signUpDto.getEmail(), signUpDto.getPassword(), signUpDto.getPhone());

@@ -27,9 +27,8 @@ public class LoginService {
 
         if (results.isEmpty()) //로그인 시 틀렸을 경우
             throw new WrongException();
-
-        if (results.get(0).getEmail() == loginDto.getEmail() && results.get(0).getPassword() == loginDto.getPassword()) //세션에 값 부여
-            session.setAttribute("loginIng", loginDto);
+        else
+            session.setAttribute("userLogin", loginDto);
 
     }
 

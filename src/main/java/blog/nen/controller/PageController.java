@@ -35,9 +35,12 @@ public class PageController {
     }
 
     @GetMapping("index")
-    public String index() {
+    public String index(HttpSession session) {
         //redirect 시 '/'가 없으면 맵핑값을 기준으로 redirect 됨
-        return "redirect:";
+        if (session.getAttribute("userLogin") == null)
+            return "redirect:";
+
+        return "main";
     }
 
     @PostMapping("main")
@@ -62,11 +65,23 @@ public class PageController {
         return "main";
     }
 
+    @GetMapping("logout")
+    public String logout(@ModelAttribute("loginDto") LoginDto loginDto, HttpSession session) {
+        //로그아웃
+        session.invalidate();
+        return "index";
+    }
+
     @GetMapping("main")
-    public String mainGetException(Model model) {
-        //주소창에 쳤을때 익셉션
-        model.addAttribute("ExceptionName", "mainGetException");
-        return "error/Exception";
+    public String mainGet(HttpSession session, Model model) {
+
+        if (session.getAttribute("userLogin") == null) {
+            //주소창에 쳤을때 익셉션
+            model.addAttribute("ExceptionName", "mainGetException");
+            return "error/Exception";
+        }
+
+        return "main";
     }
 
 
