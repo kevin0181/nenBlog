@@ -17,6 +17,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpSession;
@@ -26,15 +27,13 @@ import javax.validation.Valid;
 public class PageController {
 
     private final AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext(UserConfig.class, DBConfig.class);
-    private ModelAndView mav = new ModelAndView();
 
-
-    @GetMapping("/")
+    @RequestMapping("/")
     public String startPage(@ModelAttribute("loginDto") LoginDto loginDto) {
         return "index";
     }
 
-    @GetMapping("index")
+    @RequestMapping("index")
     public String index(HttpSession session) {
         //redirect 시 '/'가 없으면 맵핑값을 기준으로 redirect 됨
         if (session.getAttribute("userLogin") == null)
@@ -43,7 +42,7 @@ public class PageController {
         return "main";
     }
 
-    @PostMapping("main")
+    @RequestMapping("main")
     public String login(@Valid LoginDto loginDto, BindingResult bindingResult, HttpSession session) {
         //로그인 시 메인페이지로
 
@@ -65,33 +64,21 @@ public class PageController {
         return "main";
     }
 
-    @GetMapping("logout")
+    @RequestMapping("logout")
     public String logout(@ModelAttribute("loginDto") LoginDto loginDto, HttpSession session) {
         //로그아웃
         session.invalidate();
         return "index";
     }
 
-    @GetMapping("main")
-    public String mainGet(HttpSession session, Model model) {
 
-        if (session.getAttribute("userLogin") == null) {
-            //주소창에 쳤을때 익셉션
-            model.addAttribute("ExceptionName", "mainGetException");
-            return "error/Exception";
-        }
-
-        return "main";
-    }
-
-
-    @GetMapping("signPage")
+    @RequestMapping("signPage")
     public String signPage(@ModelAttribute("signUpDto") SignUpDto signUpDto) {
         //회원 가입 페이지로 이동
         return "signPage";
     }
 
-    @PostMapping("signUp")
+    @RequestMapping("signUp")
     public String signUp(@Valid SignUpDto signUpDto, BindingResult bindingResult, Model model) {
         //회원 가입 후 index 페이지로 리다이렉트
 
@@ -117,6 +104,17 @@ public class PageController {
         // signUp 주소창으로 입력했을때 익셉션
         model.addAttribute("ExceptionName", "singUpGetException");
         return "error/Exception";
+    }
+
+    @GetMapping("main")
+    public String mainGet(HttpSession session, Model model) {
+        //주소창에 쳤을때 익셉션
+        if (session.getAttribute("userLogin") == null) {
+            model.addAttribute("ExceptionName", "mainGetException");
+            return "error/Exception";
+        }
+
+        return "main";
     }
 
 }
