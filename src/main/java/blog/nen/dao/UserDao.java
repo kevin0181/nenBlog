@@ -24,8 +24,7 @@ public class UserDao {
                     SignUpDto signUpDto = new SignUpDto(
                             rs.getString("EMAIL"),
                             rs.getString("PASSWORD"),
-                            rs.getString("PHONE"),
-                            rs.getString("EMAIL_CATEGORY")
+                            rs.getString("PHONE")
                     );
                     return signUpDto;
                 }, email);
@@ -39,15 +38,15 @@ public class UserDao {
         //USERAUTH 테이블에 데이터 입력 (권한 테이블)
         try {
             jdbcTemplate.update("insert into USER_AUTH(EMAIL,AUTH) values (?,?)", signUpDto.getEmail(), false);
-            jdbcTemplate.update("insert into USER_CATEGORY(EMAIL, CATEGORY) VALUES (?,?)", signUpDto.getEmail(), category);
         } catch (Exception e) {
             return false;
         }
 
         //USERINFO 테이블에 데이터 입력
         try {
-            jdbcTemplate.update("insert into user_info (EMAIL,PASSWORD,PHONE,EMAIL_CATEGORY) values (?,?,?,?)",
+            jdbcTemplate.update("insert into user_info (EMAIL,PASSWORD,PHONE) values (?,?,?)",
                     signUpDto.getEmail(), signUpDto.getPassword(), signUpDto.getPhone(), signUpDto.getEmail());
+            jdbcTemplate.update("insert into USER_CATEGORY(EMAIL, CATEGORY) VALUES (?,?)", signUpDto.getEmail(), category);
             return true;
         } catch (Exception e) {
             return false;

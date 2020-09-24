@@ -11,14 +11,12 @@
             <label for="board-title" th:text="#{board.title}"></label>
             <input type="email" class="form-control" id="board-title" th:placeholder="#{board.title.placeholder}">
         </div>
-        <div class="form-group">
+        <div class="form-group" th:object="${boardCategory}">
             <label for="category" th:text="#{board.category}"></label>
             <select class="form-control" id="category">
-                <option>1</option>
-                <option>2</option>
-                <option>3</option>
-                <option>4</option>
-                <option>5</option>
+                <option th:text="#{board.category.text}" th:value="null">카테고리 select 부분</option>
+                <option th:each="category : ${categoryList}" th:value="${category.category}"
+                        th:text="${category.category}"></option>
             </select>
         </div>
         <div class="form-group">

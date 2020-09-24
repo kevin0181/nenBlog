@@ -20,13 +20,11 @@ public class SignUpDto {
     @NotBlank
     @Pattern(regexp = "^01(?:0|1|[6-9])(?:\\d{3}|\\d{4})\\d{4}$")
     private String phone;
-    private String emailCategory;
 
-    public SignUpDto(@NotBlank @Size(min = 1) String email, String password, String phone, String emailCategory) {
+    public SignUpDto(@NotBlank @Size(min = 1) String email, String password, String phone) {
         this.email = email;
         this.password = password;
         this.phone = phone;
-        this.emailCategory = emailCategory;
     }
 
     public String getEmail() {
@@ -53,11 +51,4 @@ public class SignUpDto {
         this.phone = phone;
     }
 
-    public String getEmailCategory() {
-        return emailCategory;
-    }
-
-    public void setEmailCategory(String emailCategory) {
-        this.emailCategory = emailCategory;
-    }
 }
