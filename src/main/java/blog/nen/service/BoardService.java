@@ -2,7 +2,7 @@ package blog.nen.service;
 
 import blog.nen.Exception.Exception;
 import blog.nen.dao.BoardDao;
-import blog.nen.dto.BoardCategory;
+import blog.nen.dto.BoardDto;
 import blog.nen.dto.LoginDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -16,14 +16,22 @@ public class BoardService {
     @Autowired
     private BoardDao boardDao;
 
-    public List<BoardCategory> getCategoryService(HttpSession session) {
+    public List<BoardDto> getCategoryService(HttpSession session) {
         LoginDto loginDto = (LoginDto) session.getAttribute("userLogin");
         String sessionEmail = loginDto.getEmail();
-        List<BoardCategory> categoryList = boardDao.getCategory(sessionEmail);
+        List<BoardDto> categoryList = boardDao.getCategory(sessionEmail);
         //카테고리가 존재하지 않을 때 익셉션
         if (categoryList == null)
             throw new Exception();
 
         return categoryList;
     }
+
+    public void inputBoardService(BoardDto boardDto, HttpSession session) {
+        LoginDto loginDto = (LoginDto) session.getAttribute("userLogin");
+        boolean results = boardDao.inputBoardDao(boardDto, loginDto.getEmail());
+        if (!results)
+            throw new Exception();
+    }
+
 }

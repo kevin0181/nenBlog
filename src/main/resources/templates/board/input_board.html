@@ -4,32 +4,41 @@
 <head>
     <meta charset="UTF-8">
     <title>넨이의 블로그 글쓰기</title>
+    <link href="css/board.css">
 </head>
 <div layout:fragment="content" class="container mt-60px">
-    <form>
+    <form action="#" th:action="@{input_board_main}" method="post" th:object="${boardDto}">
         <div class="form-group">
             <label for="board-title" th:text="#{board.title}"></label>
-            <input type="email" class="form-control" id="board-title" th:placeholder="#{board.title.placeholder}">
-        </div>
-        <div class="form-group" th:object="${boardCategory}">
-            <label for="category" th:text="#{board.category}"></label>
-            <select class="form-control" id="category">
-                <option th:text="#{board.category.text}" th:value="null">카테고리 select 부분</option>
-                <option th:each="category : ${categoryList}" th:value="${category.category}"
-                        th:text="${category.category}"></option>
-            </select>
+            <input type="text" class="form-control" id="board-title" th:placeholder="#{board.title.placeholder}"
+                   th:field="*{boardTitle}">
         </div>
         <div class="form-group">
-            <button type="button" class="btn btn-info btn-sm" th:text="#{board.public}"></button>
-            <button type="button" class="btn btn-secondary btn-sm" th:text="#{board.private}"></button>
+            <label for="category" th:text="#{board.category}"></label>
+            <select class="form-control" id="category" th:field="*{boardCategory}">
+                <option th:text="#{board.category.text}" th:value="null">카테고리 select 부분</option>
+                <option th:each="category : ${categoryList}" th:value="${category.boardCategory}"
+                        th:text="${category.boardCategory}"></option>
+            </select>
+        </div>
+        <div class="form-group btn-group btn-group-toggle " data-toggle="buttons">
+            <label class="btn btn-info active">
+                <input type="radio" name="boardPublic" checked th:text="#{board.public}" value="true"
+                       th:field="*{boardPublic}">
+            </label>
+            <label class="btn btn-secondary">
+                <input type="radio" name="boardPublic" th:text="#{board.private}" value="false"
+                       th:field="*{boardPublic}">
+            </label>
         </div>
         <div class="form-group">
             <label for="board-write" th:text="#{board.write}"></label>
-            <textarea class="form-control" id="board-write" rows="30"></textarea>
+            <textarea class="form-control" id="board-write" rows="30" th:field="*{boardText}"></textarea>
         </div>
         <div class="form-group">
             <div class="form-check" style="margin-bottom: 5px;">
-                <input class="form-check-input" type="checkbox" value="true" id="temporaryStorage">
+                <input class="form-check-input" type="checkbox" value="true" id="temporaryStorage"
+                       th:field="*{boardSave}">
                 <label class="form-check-label" for="temporaryStorage" th:text="#{board.temporaryStorage}"/>
             </div>
             <input type="submit" class="btn btn-danger btn-lg btn-block" th:value="#{board.write}"/>

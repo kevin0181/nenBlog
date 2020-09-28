@@ -1,14 +1,21 @@
 package blog.nen.dto;
 
+import javax.validation.constraints.NotBlank;
+
 public class BoardDto {
     private int boardId;
     private String boardEmail;
     private String boardDate;
+    @NotBlank
     private String boardTitle;
     private String boardCategory;
     private boolean boardPublic;
     private String boardText;
     private boolean boardSave;
+
+    public BoardDto(String boardCategory) {
+        this.boardCategory = boardCategory;
+    }
 
     public BoardDto(int boardId, String boardEmail, String boardDate, String boardTitle, String boardCategory, boolean boardPublic, String boardText, boolean boardSave) {
         this.boardId = boardId;
@@ -19,6 +26,10 @@ public class BoardDto {
         this.boardPublic = boardPublic;
         this.boardText = boardText;
         this.boardSave = boardSave;
+    }
+
+    public BoardDto() {
+
     }
 
     public int getBoardId() {

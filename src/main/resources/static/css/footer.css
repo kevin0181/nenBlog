@@ -1,0 +1,11 @@
+/*footer*/
+footer {
+    margin-top: 30px;
+}
+
+
+.footer-flex {
+    display: flex;
+    flex-wrap: wrap;
+    margin-left: -15px;
+}
