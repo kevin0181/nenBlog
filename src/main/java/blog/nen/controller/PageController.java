@@ -4,10 +4,13 @@ import blog.nen.Exception.Exception;
 import blog.nen.Exception.NotFoundException;
 import blog.nen.Exception.SameEmailException;
 import blog.nen.Exception.WrongException;
+import blog.nen.config.BoardConfig;
 import blog.nen.config.DBConfig;
 import blog.nen.config.UserConfig;
+import blog.nen.dto.BoardDto;
 import blog.nen.dto.LoginDto;
 import blog.nen.dto.SignUpDto;
+import blog.nen.service.BoardService;
 import blog.nen.service.LoginService;
 import blog.nen.service.SignUpService;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
@@ -22,11 +25,12 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import java.util.List;
 
 @Controller
 public class PageController {
 
-    private final AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext(UserConfig.class, DBConfig.class);
+    private final AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext(UserConfig.class, BoardConfig.class, DBConfig.class);
 
     @RequestMapping("/")
     public String startPage(@ModelAttribute("loginDto") LoginDto loginDto) {
@@ -43,7 +47,7 @@ public class PageController {
     }
 
     @RequestMapping("main")
-    public String login(@Valid LoginDto loginDto, BindingResult bindingResult, HttpSession session) {
+    public String login(@Valid LoginDto loginDto, BindingResult bindingResult, HttpSession session, Model model) {
         //로그인 시 메인페이지로
 
         if (bindingResult.hasErrors()) {
@@ -53,6 +57,10 @@ public class PageController {
         try {
             LoginService loginService = ctx.getBean(LoginService.class);
             loginService.loginService(loginDto, session);
+
+            BoardService boardService = ctx.getBean(BoardService.class);
+            List<BoardDto> results = boardService.getBoardService();
+            model.addAttribute("BoardList", results);
 
         } catch (NotFoundException e) {
             bindingResult.rejectValue("ErrorCode", "notFound.Error");
@@ -113,7 +121,6 @@ public class PageController {
             model.addAttribute("ExceptionName", "mainGetException");
             return "error/Exception";
         }
-
         return "main";
     }
 

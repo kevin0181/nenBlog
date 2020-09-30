@@ -16,8 +16,8 @@ public class BoardDao {
         this.jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
+    //카테고리 가져오는 부분
     public List<BoardDto> getCategory(String sessionEmail) {
-        //카테고리 가져오는 부분
         List<BoardDto> results = jdbcTemplate.query("select CATEGORY from user_category where EMAIL = ?",
                 (ResultSet rs, int rowNum) -> {
                     BoardDto boardDto = new BoardDto(
@@ -28,6 +28,7 @@ public class BoardDao {
         return results.isEmpty() ? null : results;
     }
 
+    //글쓰기 dao
     public boolean inputBoardDao(BoardDto boardDto, String email) {
         try {
             jdbcTemplate.update("insert into user_board (BOARD_EMAIL, BOARD_DATE, BOARD_TITLE, BOARD_CATEGORY, BOARD_PUBLIC, BOARD_TEXT, BOARD_SAVE)" +
@@ -37,5 +38,24 @@ public class BoardDao {
             return false;
         }
         return true;
+    }
+
+    //글 가져오는 dao (글목록)
+    public List<BoardDto> getBoard() {
+        List<BoardDto> results = jdbcTemplate.query("select * from user_board order by BOARD_ID",
+                (ResultSet rs, int rowNum) -> {
+                    BoardDto boardDto = new BoardDto(
+                            rs.getInt(1),
+                            rs.getString(2),
+                            rs.getDate(3),
+                            rs.getString(4),
+                            rs.getString(5),
+                            rs.getBoolean(6),
+                            rs.getString(7),
+                            rs.getBoolean(8)
+                    );
+                    return boardDto;
+                });
+        return results;
     }
 }

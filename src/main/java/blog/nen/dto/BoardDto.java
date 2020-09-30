@@ -1,11 +1,12 @@
 package blog.nen.dto;
 
 import javax.validation.constraints.NotBlank;
+import java.sql.Date;
 
 public class BoardDto {
     private int boardId;
     private String boardEmail;
-    private String boardDate;
+    private Date boardDate;
     @NotBlank
     private String boardTitle;
     private String boardCategory;
@@ -13,11 +14,11 @@ public class BoardDto {
     private String boardText;
     private boolean boardSave;
 
-    public BoardDto(String boardCategory) {
-        this.boardCategory = boardCategory;
+    public BoardDto() {
+
     }
 
-    public BoardDto(int boardId, String boardEmail, String boardDate, String boardTitle, String boardCategory, boolean boardPublic, String boardText, boolean boardSave) {
+    public BoardDto(int boardId, String boardEmail, Date boardDate, @NotBlank String boardTitle, String boardCategory, boolean boardPublic, String boardText, boolean boardSave) {
         this.boardId = boardId;
         this.boardEmail = boardEmail;
         this.boardDate = boardDate;
@@ -28,8 +29,8 @@ public class BoardDto {
         this.boardSave = boardSave;
     }
 
-    public BoardDto() {
-
+    public BoardDto(String boardCategory) {
+        this.boardCategory = boardCategory;
     }
 
     public int getBoardId() {
@@ -48,11 +49,11 @@ public class BoardDto {
         this.boardEmail = boardEmail;
     }
 
-    public String getBoardDate() {
+    public Date getBoardDate() {
         return boardDate;
     }
 
-    public void setBoardDate(String boardDate) {
+    public void setBoardDate(Date boardDate) {
         this.boardDate = boardDate;
     }
 
