@@ -11,7 +11,9 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.List;
@@ -47,6 +49,18 @@ public class BoardController {
         } catch (Exception e) {
             return "error/Exception";
         }
+
+        BoardService boardService = ctx.getBean(BoardService.class);
+        List<BoardDto> results = boardService.getBoardService();
+        model.addAttribute("BoardList", results);
+
         return "main";
+    }
+
+    @RequestMapping("boardId")
+    public String boardId(@RequestParam("id") String id, Model model) {
+        List<BoardDto> boardDto = boardService.getBoardIdService(id);
+        model.addAttribute("boardDto", boardDto);
+        return "board/board";
     }
 }

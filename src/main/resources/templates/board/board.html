@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/board-layout}">
+<head>
+    <meta charset="UTF-8">
+    <title>넨이의 블로그</title>
+</head>
+<div layout:fragment="content">
+    <div class="container mt-5 mb-5" th:each="boardId : ${boardDto}">
+        <nav class="navbar navbar-light bg-light">
+            <a class="navbar-brand" th:text="${boardId.boardTitle}">글 제목</a>
+            <small th:text="${boardId.boardDate}"></small>
+        </nav>
+        <nav class="navbar navbar-light">
+            <small th:if="${boardId.boardPublic} == true"
+                   th:text="#{board.public}"></small>
+            <small th:if="${boardId.boardPublic} == false"
+                   th:text="#{board.private}"></small>
+            <small th:text="${boardId.boardCategory}"></small>
+        </nav>
+        <hr>
+        <div data-spy="scroll">
+            <p th:text="${boardId.boardText}">글 내용</p>
+        </div>
+    </div>
+</div>
+</html>

@@ -10,14 +10,16 @@
             th:text="#{board.write}" onclick="location.href='input_board'"/>
     <div class="card-columns main-container">
         <div class="card border border-info" th:each="boardlist : ${BoardList}">
-            <div class="card-body">
-                <h5 class="card-title" th:text="${boardlist.boardTitle}"></h5>
-                <p class="card-text" th:text="${boardlist.boardText}"></p>
-                <p class="card-text"><small class="text-muted" th:text="${boardlist.boardDate}"></small></p>
-                <div class="blockquote-footer">
-                    <small class="text-muted">
-                        카테고리 <cite title="Source Title" th:text="${boardlist.boardCategory}"></cite>
-                    </small>
+            <div th:onclick="|window.location.href='/boardId?id=${boardlist.boardId}'|">
+                <div class="card-body">
+                    <h5 class="card-title" th:text="${boardlist.boardTitle}"></h5>
+                    <p class="card-text" th:text="${boardlist.boardText}"></p>
+                    <p class="card-text"><small class="text-muted" th:text="${boardlist.boardDate}"></small></p>
+                    <div class="blockquote-footer">
+                        <small class="text-muted">
+                            카테고리 <cite title="Source Title" th:text="${boardlist.boardCategory}"></cite>
+                        </small>
+                    </div>
                 </div>
             </div>
         </div>

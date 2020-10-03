@@ -42,4 +42,10 @@ public class BoardService {
         return results;
     }
 
+    //해당 아이디 글 가져오는 서비스
+    public List<BoardDto> getBoardIdService(String id) {
+        List<BoardDto> results = boardDao.getBoardId(id);
+        return results;
+    }
+
 }

@@ -38,10 +38,14 @@ public class PageController {
     }
 
     @RequestMapping("index")
-    public String index(HttpSession session) {
+    public String index(HttpSession session, Model model) {
         //redirect 시 '/'가 없으면 맵핑값을 기준으로 redirect 됨
         if (session.getAttribute("userLogin") == null)
             return "redirect:";
+
+        BoardService boardService = ctx.getBean(BoardService.class);
+        List<BoardDto> results = boardService.getBoardService();
+        model.addAttribute("BoardList", results);
 
         return "main";
     }
@@ -121,6 +125,11 @@ public class PageController {
             model.addAttribute("ExceptionName", "mainGetException");
             return "error/Exception";
         }
+
+        BoardService boardService = ctx.getBean(BoardService.class);
+        List<BoardDto> results = boardService.getBoardService();
+        model.addAttribute("BoardList", results);
+
         return "main";
     }
 

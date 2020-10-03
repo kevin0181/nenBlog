@@ -58,4 +58,24 @@ public class BoardDao {
                 });
         return results;
     }
+
+    //해당 아이디의 글 가져오는 dao
+    public List<BoardDto> getBoardId(String id) {
+        List<BoardDto> results = jdbcTemplate.query("select * from user_board where BOARD_ID = ?",
+                (ResultSet rs, int rowNum) -> {
+                    BoardDto boardDto = new BoardDto(
+                            rs.getInt(1),
+                            rs.getString(2),
+                            rs.getDate(3),
+                            rs.getString(4),
+                            rs.getString(5),
+                            rs.getBoolean(6),
+                            rs.getString(7),
+                            rs.getBoolean(8)
+                    );
+                    return boardDto;
+                }, id
+        );
+        return results;
+    }
 }
