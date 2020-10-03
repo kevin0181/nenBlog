@@ -13,7 +13,7 @@
             <div th:onclick="|window.location.href='/boardId?id=${boardlist.boardId}'|">
                 <div class="card-body">
                     <h5 class="card-title" th:text="${boardlist.boardTitle}"></h5>
-                    <p class="card-text" th:text="${boardlist.boardText}"></p>
+                    <p class="card-text boardText" th:text="${boardlist.boardText}" ></p>
                     <p class="card-text"><small class="text-muted" th:text="${boardlist.boardDate}"></small></p>
                     <div class="blockquote-footer">
                         <small class="text-muted">
