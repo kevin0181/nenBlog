@@ -12,6 +12,8 @@
             <label for="board-title" th:text="#{board.title}"></label>
             <input type="text" class="form-control" id="board-title" th:placeholder="#{board.title.placeholder}"
                    th:field="*{boardTitle}">
+            <small th:if="${#fields.hasErrors('boardTitle')}" th:errors="*{boardTitle}"
+                   class="text-danger"></small>
         </div>
         <div class="form-group">
             <label for="category" th:text="#{board.category}"></label>

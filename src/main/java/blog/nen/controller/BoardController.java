@@ -39,6 +39,7 @@ public class BoardController {
 
     @RequestMapping("input_board_main")
     public String inputBoardText(@Valid BoardDto boardDto, BindingResult bindingResult, HttpSession session, Model model) {
+        //글쓰기 시 디비에 입력되는 부분
         try {
             if (bindingResult.hasErrors()) {
                 List<BoardDto> categoryList = boardService.getCategoryService(session);
@@ -50,7 +51,6 @@ public class BoardController {
             return "error/Exception";
         }
 
-        BoardService boardService = ctx.getBean(BoardService.class);
         List<BoardDto> results = boardService.getBoardService();
         model.addAttribute("BoardList", results);
 
@@ -59,8 +59,23 @@ public class BoardController {
 
     @RequestMapping("boardId")
     public String boardId(@RequestParam("id") String id, Model model) {
+        //게시물의 id값을 가져오는 부분
         List<BoardDto> boardDto = boardService.getBoardIdService(id);
         model.addAttribute("boardDto", boardDto);
         return "board/board";
+    }
+
+    @RequestMapping("boardDelete")
+    public String boardDelete(@RequestParam("id") String id, HttpSession session, Model model) {
+        //게시물 삭제
+        try {
+            boardService.deleteBoardService(id, session);
+
+            List<BoardDto> results = boardService.getBoardService();
+            model.addAttribute("BoardList", results);
+        } catch (Exception e) {
+            return "error/Exception";
+        }
+        return "main";
     }
 }

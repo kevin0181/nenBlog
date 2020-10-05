@@ -10,16 +10,45 @@
             th:text="#{board.write}" onclick="location.href='input_board'"/>
     <div class="card-columns main-container">
         <div class="card border border-info" th:each="boardlist : ${BoardList}">
-            <div th:onclick="|window.location.href='/boardId?id=${boardlist.boardId}'|">
-                <div class="card-body">
+            <div class="card-body">
+                <div th:onclick="|window.location.href='/boardId?id=${boardlist.boardId}'|">
                     <h5 class="card-title" th:text="${boardlist.boardTitle}"></h5>
-                    <p class="card-text boardText" th:text="${boardlist.boardText}" ></p>
+                    <p class="card-text boardText" th:text="${boardlist.boardText}"></p>
                     <p class="card-text"><small class="text-muted" th:text="${boardlist.boardDate}"></small></p>
-                    <div class="blockquote-footer">
-                        <small class="text-muted">
-                            카테고리 <cite title="Source Title" th:text="${boardlist.boardCategory}"></cite>
-                        </small>
+                </div>
+                <div class="blockquote-footer">
+                    <small class="text-muted" style="margin-right: 100px;">
+                        카테고리 <cite title="Source Title" th:text="${boardlist.boardCategory}"></cite>
+                    </small>
+                    <div style="display: inline-block">
+                        <button type="button" class="btn btn-outline-info btn-sm mt-2"
+                                th:onclick="|window.location.href='/boardIdRe?id=${boardlist.boardId}'|">수정
+                        </button>
+                        <button type="button" class="btn btn-outline-danger btn-sm mt-2"
+                                th:onclick="'delete_alert(\''+${boardlist.boardId}+'\');'">삭제
+                        </button>
                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal mt-5" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">삭제 하시겠습니까?</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true" onclick="cancel_alert()">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>삭제 후, 복구는 불가능 합니다.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="Board_delete_get()">
+                        삭제
+                    </button>
+                    <button type="button" class="btn btn-primary" onclick="cancel_alert()">취소</button>
                 </div>
             </div>
         </div>

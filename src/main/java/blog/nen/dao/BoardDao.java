@@ -78,4 +78,8 @@ public class BoardDao {
         );
         return results;
     }
+
+    public void deleteBoard(String id, String email) {
+        jdbcTemplate.update("delete from user_board where BOARD_EMAIL = ? and BOARD_ID = ?", email, id);
+    }
 }

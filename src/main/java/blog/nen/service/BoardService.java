@@ -48,4 +48,14 @@ public class BoardService {
         return results;
     }
 
+    public void deleteBoardService(String id, HttpSession session) {
+        if (id == null)
+            throw new Exception();
+        LoginDto loginDto = (LoginDto) session.getAttribute("userLogin");
+        if (loginDto.getEmail() == null)
+            throw new Exception();
+
+        boardDao.deleteBoard(id, loginDto.getEmail());
+
+    }
 }
