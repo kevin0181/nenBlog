@@ -41,7 +41,7 @@ public class BoardDao {
     }
 
     //글 가져오는 dao (글목록)
-    public List<BoardDto> getBoard() {
+    public List<BoardDto> getBoardList() {
         List<BoardDto> results = jdbcTemplate.query("select * from user_board order by BOARD_ID",
                 (ResultSet rs, int rowNum) -> {
                     BoardDto boardDto = new BoardDto(
@@ -79,7 +79,34 @@ public class BoardDao {
         return results;
     }
 
+    //게시물 삭제하는 dao
     public void deleteBoard(String id, String email) {
         jdbcTemplate.update("delete from user_board where BOARD_EMAIL = ? and BOARD_ID = ?", email, id);
+    }
+
+    //게시물 수정하는 dao
+    public BoardDto getBoard(String id, String email) {
+        BoardDto boardDto =
+                jdbcTemplate.queryForObject("select * from user_board where BOARD_EMAIL = ? and BOARD_ID = ?",
+                        (ResultSet rs, int rowNum) -> {
+                            BoardDto boardDto1 = new BoardDto(
+                                    rs.getInt(1),
+                                    rs.getString(2),
+                                    rs.getDate(3),
+                                    rs.getString(4),
+                                    rs.getString(5),
+                                    rs.getBoolean(6),
+                                    rs.getString(7),
+                                    rs.getBoolean(8)
+                            );
+                            return boardDto1;
+                        }, email, id);
+        return boardDto;
+    }
+
+    public void boardUpdate(BoardDto boardDto, String email) {
+        jdbcTemplate.update("update user_board set BOARD_TITLE = ?, BOARD_CATEGORY = ?, BOARD_PUBLIC = ?, BOARD_TEXT = ?, BOARD_SAVE = ? " +
+                        "where BOARD_ID = ? and BOARD_EMAIL = ?", boardDto.getBoardTitle(), boardDto.getBoardCategory(), boardDto.isBoardPublic(), boardDto.getBoardText(),
+                boardDto.isBoardSave(), boardDto.getBoardId(), email);
     }
 }

@@ -38,7 +38,7 @@ public class BoardService {
 
     //글 목록 서비스
     public List<BoardDto> getBoardService() {
-        List<BoardDto> results = boardDao.getBoard();
+        List<BoardDto> results = boardDao.getBoardList();
         return results;
     }
 
@@ -48,6 +48,7 @@ public class BoardService {
         return results;
     }
 
+    //해당 글 삭제하는 서비스
     public void deleteBoardService(String id, HttpSession session) {
         if (id == null)
             throw new Exception();
@@ -56,6 +57,29 @@ public class BoardService {
             throw new Exception();
 
         boardDao.deleteBoard(id, loginDto.getEmail());
+
+    }
+
+    //해당 글 수정하는 서비스
+    public BoardDto reviseBoardService(String id, HttpSession session) {
+        if (id == null)
+            throw new Exception();
+        LoginDto loginDto = (LoginDto) session.getAttribute("userLogin");
+        if (loginDto.getEmail() == null)
+            throw new Exception();
+
+        BoardDto boardDto = boardDao.getBoard(id, loginDto.getEmail());
+
+        return boardDto;
+    }
+
+    public void boardUpdateService(BoardDto boardDto, HttpSession session) {
+
+        LoginDto loginDto = (LoginDto) session.getAttribute("userLogin");
+        if (loginDto.getEmail() == null)
+            throw new Exception();
+
+        boardDao.boardUpdate(boardDto, loginDto.getEmail());
 
     }
 }

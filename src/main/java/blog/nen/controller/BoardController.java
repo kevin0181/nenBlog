@@ -71,11 +71,39 @@ public class BoardController {
         try {
             boardService.deleteBoardService(id, session);
 
-            List<BoardDto> results = boardService.getBoardService();
+            List<BoardDto> results = boardService.getBoardService(); //리스트 다시 가져옴
             model.addAttribute("BoardList", results);
         } catch (Exception e) {
             return "error/Exception";
         }
+        return "main";
+    }
+
+    @RequestMapping("boardIdRe")
+    public String boardRevise(@RequestParam("id") String id, HttpSession session, Model model) {
+        try {
+            BoardDto boardDto = boardService.reviseBoardService(id, session);
+            model.addAttribute("boardDto", boardDto);
+
+            List<BoardDto> categoryList = boardService.getCategoryService(session); //카테고리 가져옴
+            model.addAttribute("categoryList", categoryList);
+        } catch (Exception e) {
+            return "error/Exception";
+        }
+        return "board/revise_input_board";
+    }
+
+    @RequestMapping("revise_board")
+    public String revise_board_main(@Valid BoardDto boardDto, BindingResult bindingResult, HttpSession session, Model model) {
+
+        if (bindingResult.hasErrors())
+            return "board/revise_input_board";
+
+        boardService.boardUpdateService(boardDto, session);
+
+        List<BoardDto> results = boardService.getBoardService(); //리스트 다시 가져옴
+        model.addAttribute("BoardList", results);
+
         return "main";
     }
 }
