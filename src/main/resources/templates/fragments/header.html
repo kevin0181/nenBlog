@@ -17,9 +17,20 @@
                 <li class="nav-item active">
                     <a class="nav-link">내정보</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" th:if="${session.userLogin.email}" th:text="#{logout.text}" th:href="@{logout}" >로그아웃</a>
-                </li>
+                <th:block th:if="${session.isEmpty()}">
+                    <li class="nav-item">
+                        <a class="nav-link"
+                           th:text="로그인"
+                           th:href="@{index}">로그인</a>
+                    </li>
+                </th:block>
+                <th:block th:if="${!session.isEmpty()}">
+                    <li class="nav-item">
+                        <a class="nav-link" th:if="${session.userLogin.email != null}"
+                           th:text="#{logout.text}"
+                           th:href="@{logout}">로그아웃</a>
+                    </li>
+                </th:block>
             </ul>
             <form class="form-inline my-2 my-lg-0">
                 <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">

@@ -59,7 +59,7 @@ public class BoardController {
 
     @RequestMapping("boardId")
     public String boardId(@RequestParam("id") String id, Model model) {
-        //게시물의 id값을 가져오는 부분
+        //게시물의 id값, 리스트를 가져오는 부분
         List<BoardDto> boardDto = boardService.getBoardIdService(id);
         model.addAttribute("boardDto", boardDto);
         return "board/board";

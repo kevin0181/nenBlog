@@ -120,11 +120,6 @@ public class PageController {
 
     @GetMapping("main")
     public String mainGet(HttpSession session, Model model) {
-        //주소창에 쳤을때 익셉션
-        if (session.getAttribute("userLogin") == null) {
-            model.addAttribute("ExceptionName", "mainGetException");
-            return "error/Exception";
-        }
 
         BoardService boardService = ctx.getBean(BoardService.class);
         List<BoardDto> results = boardService.getBoardService();
