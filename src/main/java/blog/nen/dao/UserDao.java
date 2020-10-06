@@ -1,5 +1,6 @@
 package blog.nen.dao;
 
+import blog.nen.dto.AuthDto;
 import blog.nen.dto.LoginDto;
 import blog.nen.dto.SignUpDto;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -45,8 +46,8 @@ public class UserDao {
         //USERINFO 테이블에 데이터 입력
         try {
             jdbcTemplate.update("insert into user_info (EMAIL,PASSWORD,PHONE) values (?,?,?)",
-                    signUpDto.getEmail(), signUpDto.getPassword(), signUpDto.getPhone(), signUpDto.getEmail());
-            jdbcTemplate.update("insert into USER_CATEGORY(EMAIL, CATEGORY) VALUES (?,?)", signUpDto.getEmail(), category);
+                    signUpDto.getEmail(), signUpDto.getPassword(), signUpDto.getPhone());
+            jdbcTemplate.update("insert into user_category(EMAIL, CATEGORY) VALUES (?,?)", signUpDto.getEmail(), category);
             return true;
         } catch (Exception e) {
             return false;
@@ -70,5 +71,17 @@ public class UserDao {
                 }, email, password);
         return results;
     }
+
+    public AuthDto checkUser(String email) {
+        AuthDto authDto = jdbcTemplate.queryForObject("select * from USER_AUTH where EMAIL = ?",
+                (ResultSet rs, int rowNum) -> {
+                    AuthDto authDto1 = new AuthDto(
+                            rs.getBoolean(2)
+                    );
+                    return authDto1;
+                }, email);
+        return authDto;
+    }
+
 }
 

@@ -59,7 +59,9 @@ public class PageController {
         }
 
         try {
+
             LoginService loginService = ctx.getBean(LoginService.class);
+            loginService.userCheckService(loginDto.getEmail(), session); //관리자인지 체크하는 부분
             loginService.loginService(loginDto, session);
 
             BoardService boardService = ctx.getBean(BoardService.class);
@@ -101,6 +103,7 @@ public class PageController {
         SignUpService signUpService = ctx.getBean(SignUpService.class);
         try {
             signUpService.signUpService(signUpDto);
+
         } catch (SameEmailException e) {
             bindingResult.rejectValue("email", "sameEmail.Error");
             return "signPage";

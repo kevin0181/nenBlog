@@ -14,10 +14,13 @@ public class SignUpService {
     private UserDao userDao;
 
     public void signUpService(SignUpDto signUpDto) {
+
         SignUpDto sameCheck = userDao.selectUser(signUpDto.getEmail());
+
         if (sameCheck != null) {
             throw new SameEmailException(); // 같은 이메일이 있으면 익셉션 처리
         }
+
         boolean signUpCheck = userDao.insert(signUpDto);
         if (!signUpCheck) {
             throw new Exception(); // 만약에 익셉션 뜨면 처리하는 부분

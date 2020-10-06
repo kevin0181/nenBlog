@@ -2,6 +2,7 @@ package blog.nen.service;
 
 import blog.nen.Exception.NotFoundException;
 import blog.nen.Exception.WrongException;
+import blog.nen.dto.AuthDto;
 import blog.nen.dto.LoginDto;
 import blog.nen.dao.UserDao;
 import blog.nen.dto.SignUpDto;
@@ -32,4 +33,13 @@ public class LoginService {
 
     }
 
+    public void userCheckService(String email, HttpSession session) {
+        AuthDto authDto = userDao.checkUser(email);
+
+        if (authDto.isAuth())
+            session.setAttribute("user_Auth", true);
+        else
+            session.setAttribute("user_Auth", false);
+
+    }
 }
