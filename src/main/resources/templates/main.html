@@ -5,9 +5,10 @@
     <meta charset="UTF-8">
     <title>메인</title>
 </head>
-<div layout:fragment="content" class="container mt-60px">
-    <button type="button" class="btn btn-danger shadow-lg rounded" style="margin-bottom: 10px;"
-            th:text="#{board.write}" onclick="location.href='input_board'"/>
+<div layout:fragment="content" class="container mt-60px" id="main-height">
+    <button type="button" th:if="${session.user_Auth}" class="btn btn-danger shadow-lg rounded"
+            style="margin-bottom: 10px;"
+            th:text="#{board.write}" onclick="location.href='input_board'"></button>
     <div class="card-columns main-container">
         <div class="card border border-info" th:each="boardlist : ${BoardList}">
             <div class="card-body">
@@ -21,10 +22,10 @@
                         카테고리 <cite title="Source Title" th:text="${boardlist.boardCategory}"></cite>
                     </small>
                     <div style="display: inline-block">
-                        <button type="button" class="btn btn-outline-info btn-sm mt-2"
+                        <button type="button" class="btn btn-outline-info btn-sm mt-2" th:if="${session.user_Auth}"
                                 th:onclick="|window.location.href='/boardIdRe?id=${boardlist.boardId}'|">수정
                         </button>
-                        <button type="button" class="btn btn-outline-danger btn-sm mt-2"
+                        <button type="button" class="btn btn-outline-danger btn-sm mt-2" th:if="${session.user_Auth}"
                                 th:onclick="'delete_alert(\''+${boardlist.boardId}+'\');'">삭제
                         </button>
                     </div>

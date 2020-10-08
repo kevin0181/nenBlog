@@ -1,7 +1,3 @@
-.main-container {
-    margin-bottom: 40%;
-}
-
 /*텍스트 안보이게 하는법*/
 .boardText {
     overflow: hidden;
@@ -22,6 +18,10 @@
 
 .mt-60px {
     margin-top: 60px;
+}
+
+#main-height {
+    margin-bottom: 70px;
 }
 
 

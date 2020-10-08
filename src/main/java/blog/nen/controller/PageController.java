@@ -11,6 +11,7 @@ import blog.nen.dto.BoardDto;
 import blog.nen.dto.LoginDto;
 import blog.nen.dto.SignUpDto;
 import blog.nen.service.BoardService;
+import blog.nen.service.InfoService;
 import blog.nen.service.LoginService;
 import blog.nen.service.SignUpService;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
@@ -19,9 +20,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
@@ -78,6 +77,16 @@ public class PageController {
         return "main";
     }
 
+    @GetMapping("main")
+    public String mainGet(HttpSession session, Model model) {
+
+        BoardService boardService = ctx.getBean(BoardService.class);
+        List<BoardDto> results = boardService.getBoardService();
+        model.addAttribute("BoardList", results);
+
+        return "main";
+    }
+
     @RequestMapping("logout")
     public String logout(@ModelAttribute("loginDto") LoginDto loginDto, HttpSession session) {
         //로그아웃
@@ -121,14 +130,24 @@ public class PageController {
         return "error/Exception";
     }
 
-    @GetMapping("main")
-    public String mainGet(HttpSession session, Model model) {
+    @RequestMapping("info")
+    public String info(Model model, HttpSession session) {
 
-        BoardService boardService = ctx.getBean(BoardService.class);
-        List<BoardDto> results = boardService.getBoardService();
-        model.addAttribute("BoardList", results);
+        try {
+            InfoService infoService = ctx.getBean(InfoService.class);
 
-        return "main";
+            SignUpDto userInfo = infoService.selectUserService(session);
+            model.addAttribute("userInfo", userInfo);
+
+            List<BoardDto> userInfoCategory = infoService.selectCategoryService(session);
+            model.addAttribute("userInfoCategory", userInfoCategory);
+        } catch (Exception e) {
+            return "error/Exception";
+        } catch (NullPointerException e) {
+            return "error/Exception";
+        }
+
+        return "info";
     }
 
 }

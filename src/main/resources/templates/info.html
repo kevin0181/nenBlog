@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/info-layout}">
+<head>
+    <meta charset="UTF-8">
+    <title>내 정보</title>
+</head>
+<div layout:fragment="content" class="container mt-60px content-con" id="info-height">
+    <div class="btn-group mb-3">
+        <button type="button" class="btn btn-info" th:text="#{info.text}" onclick="infoContainer()"></button>
+        <button type="button" class="btn btn-info dropdown-toggle dropdown-toggle-split" data-toggle="dropdown"
+                aria-haspopup="true" aria-expanded="false">
+            <span class="sr-only"></span>
+        </button>
+        <div class="dropdown-menu">
+            <a class="dropdown-item" th:text="#{addCategory.info.text}" onclick="categoryContainer()"></a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" th:text="#{edit.info.text}" onclick="editContainer()"></a>
+            <a class="dropdown-item" th:text="#{delete.info.text}" onclick="deleteContainer()"></a>
+        </div>
+    </div>
+    <div id="info-container">
+        <div class="container" style="margin-bottom: 100px;">
+            <p th:text="#{email}"></p>
+            <div class="alert alert-secondary mb-3" role="alert" th:text="${userInfo.email}">
+                email
+            </div>
+            <p th:text="#{phone}"></p>
+            <div class="alert alert-secondary" role="alert" style="margin-bottom: 30px;"
+                 th:text="${userInfo.phone}">
+                phone number
+            </div>
+            <div class="accordion" id="accordionExample">
+                <div class="card" th:each="category : ${userInfoCategory}">
+                    <div class="card-header" id="headingOne">
+                        <h2 class="mb-0">
+                            <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse"
+                                    data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne"
+                                    id="category" th:text="${category.boardCategory}">
+                                카테고리 이름
+                            </button>
+                        </h2>
+                    </div>
+                    <div id="collapseOne" class="collapse" aria-labelledby="headingOne"
+                         data-parent="#accordionExample">
+                        <div class="card-body">
+                            설명란
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--    카테고리    -->
+    <div id="category-container" style="display: none;">
+        <div class="accordion mb-5" id="accordionExample">
+            <div class="card">
+                <div class="card-header" id="headingOne">
+                    <h2 class="mb-0">
+                        <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse"
+                                data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne"
+                                id="category">
+                            카테고리 이름
+                        </button>
+                    </h2>
+                </div>
+                <div id="collapseOne" class="collapse" aria-labelledby="headingOne"
+                     data-parent="#accordionExample">
+                    <div class="card-body">
+                        설명란
+                    </div>
+                </div>
+            </div>
+        </div>
+        <form>
+            <div class="row">
+                <div class="col">
+                    <input type="text" class="form-control" th:placeholder="#{board.category}">
+                </div>
+                <div class="col">
+                    <input type="text" class="form-control" th:placeholder="#{info.category.exText}">
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary mt-5" th:text="#{addCategory.info.text}"></button>
+        </form>
+    </div>
+    <!--    수정      -->
+    <div id="edit-container" style="display: none;">
+        <form>
+            <div class="form-group">
+                <label for="edit-email" th:text="#{email}">Email address</label>
+                <input type="email" class="form-control" id="edit-email">
+            </div>
+            <div class="form-group">
+                <label for="edit-password" th:text="#{password}">Password</label>
+                <input type="password" class="form-control" id="edit-password">
+            </div>
+            <button type="submit" class="btn btn-primary" th:text="#{edit.text}"></button>
+        </form>
+    </div>
+    <!--    삭제      -->
+    <div id="delete-container" style="display: none;">
+        <div class="alert alert-danger" role="alert" th:text="#{delete.info.dangerMessage}"></div>
+        <form>
+            <div class="form-group">
+                <label for="delete-email" th:text="#{email}">Email address</label>
+                <input type="email" class="form-control" id="delete-email">
+            </div>
+            <div class="form-group">
+                <label for="delete-passowrd" th:text="#{password}">Password</label>
+                <input type="password" class="form-control" id="delete-passowrd">
+            </div>
+            <button type="submit" class="btn btn-primary" th:text="#{delete.info.text}"></button>
+        </form>
+    </div>
+</div>
+</html>

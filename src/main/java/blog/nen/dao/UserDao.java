@@ -72,6 +72,7 @@ public class UserDao {
         return results;
     }
 
+    //권한 체크
     public AuthDto checkUser(String email) {
         AuthDto authDto = jdbcTemplate.queryForObject("select * from USER_AUTH where EMAIL = ?",
                 (ResultSet rs, int rowNum) -> {
