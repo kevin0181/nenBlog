@@ -29,6 +29,8 @@ import java.util.List;
 @Controller
 public class PageController {
 
+    private String email;
+
     private final AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext(UserConfig.class, BoardConfig.class, DBConfig.class);
 
     @RequestMapping("/")
@@ -61,6 +63,7 @@ public class PageController {
 
             LoginService loginService = ctx.getBean(LoginService.class);
             loginService.userCheckService(loginDto.getEmail(), session); //관리자인지 체크하는 부분
+            checkUser(loginDto.getEmail());
             loginService.loginService(loginDto, session);
 
             BoardService boardService = ctx.getBean(BoardService.class);
@@ -131,7 +134,7 @@ public class PageController {
     }
 
     @RequestMapping("info")
-    public String info(Model model, HttpSession session) {
+    public String info(@ModelAttribute("boardDto") BoardDto boardDto, Model model, HttpSession session) {
 
         try {
             InfoService infoService = ctx.getBean(InfoService.class);
@@ -149,5 +152,46 @@ public class PageController {
 
         return "info";
     }
+
+    @RequestMapping("addCategory")
+    public String addCategory(@Valid BoardDto boardDto, BindingResult bindingResult, HttpSession session, Model model) {
+
+        try {
+
+
+            InfoService infoService = ctx.getBean(InfoService.class);
+
+            infoService.insertCategoryService(boardDto, session);
+
+            SignUpDto userInfo = infoService.selectUserService(session);
+            model.addAttribute("userInfo", userInfo);
+
+            List<BoardDto> userInfoCategory = infoService.selectCategoryService(session);
+            model.addAttribute("userInfoCategory", userInfoCategory);
+
+            String email = getCheckUser();
+            LoginService loginService = ctx.getBean(LoginService.class);
+            loginService.userCheckService(email, session);
+
+            if (bindingResult.hasErrors()) {
+                return "info";
+            }
+
+
+        } catch (Exception e) {
+            return "error/Exception";
+        }
+
+        return "info";
+    }
+
+    public void checkUser(String email) {
+        this.email = email;
+    }
+
+    public String getCheckUser() {
+        return email;
+    }
+
 
 }

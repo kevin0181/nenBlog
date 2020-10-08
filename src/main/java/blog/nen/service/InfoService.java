@@ -50,4 +50,16 @@ public class InfoService {
 
         return results;
     }
+
+    public void insertCategoryService(BoardDto boardDto, HttpSession session) {
+
+        LoginDto loginDto = (LoginDto) session.getAttribute("userLogin");
+        String email = loginDto.getEmail();
+
+        if (email == null)
+            throw new Exception();
+
+        boardDao.insertCategory(boardDto, email);
+
+    }
 }

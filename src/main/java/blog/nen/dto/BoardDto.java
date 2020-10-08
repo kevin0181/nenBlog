@@ -10,6 +10,7 @@ public class BoardDto {
     @NotBlank
     private String boardTitle;
     private int category_id;
+    @NotBlank
     private String boardCategory;
     private String boardCategory_Ex;
     private boolean boardPublic;

@@ -2,7 +2,8 @@ var info;
 var category;
 var editInfo;
 var deleteInfo;
-
+var infoHeight;
+var footer;
 
 window.onload = function () {
     info = document.getElementById("info-container").valueOf();
@@ -10,8 +11,12 @@ window.onload = function () {
     editInfo = document.getElementById("edit-container").valueOf();
     deleteInfo = document.getElementById("delete-container").valueOf();
 
-    var infoHeight = document.getElementById("info-height").valueOf();
-    var footer = document.getElementById("footer").valueOf();
+    document.getElementById("category-input-email").value = '';
+    document.getElementById("category-input-password").value = '';
+
+
+    infoHeight = document.getElementById("info-height").valueOf();
+    footer = document.getElementById("footer").valueOf();
 
     if (infoHeight.clientHeight > 700) {
         footer.style.position = "static";
@@ -23,6 +28,14 @@ function infoContainer() {
     category.style.display = "none";
     editInfo.style.display = "none";
     deleteInfo.style.display = "none";
+
+    infoHeight = document.getElementById("info-height").valueOf();
+    footer = document.getElementById("footer").valueOf();
+
+    if (infoHeight.clientHeight > 700) {
+        footer.style.position = "static";
+    }
+
 }
 
 function categoryContainer() {
@@ -30,6 +43,16 @@ function categoryContainer() {
     category.style.display = "block";
     editInfo.style.display = "none";
     deleteInfo.style.display = "none";
+
+    infoHeight = document.getElementById("info-height").valueOf();
+    footer = document.getElementById("footer").valueOf();
+
+    if (infoHeight.clientHeight > 900) {
+        footer.style.position = "static";
+    } else {
+        footer.style.position = "absolute";
+    }
+
 }
 
 function editContainer() {
@@ -37,6 +60,16 @@ function editContainer() {
     category.style.display = "none";
     editInfo.style.display = "block";
     deleteInfo.style.display = "none";
+
+    infoHeight = document.getElementById("info-height").valueOf();
+    footer = document.getElementById("footer").valueOf();
+
+    if (infoHeight.clientHeight > 900) {
+        footer.style.position = "static";
+    } else {
+        footer.style.position = "absolute";
+    }
+
 }
 
 function deleteContainer() {
@@ -44,5 +77,28 @@ function deleteContainer() {
     category.style.display = "none";
     editInfo.style.display = "none";
     deleteInfo.style.display = "block";
+
+    infoHeight = document.getElementById("info-height").valueOf();
+    footer = document.getElementById("footer").valueOf();
+
+    if (infoHeight.clientHeight > 900) {
+        footer.style.position = "static";
+    } else {
+        footer.style.position = "absolute";
+    }
+
+}
+
+function checkSize() {
+
+    infoHeight = document.getElementById("info-height").valueOf();
+    footer = document.getElementById("footer").valueOf();
+
+    if (infoHeight.clientHeight > 700) {
+        footer.style.position = "static";
+    } else {
+        footer.style.position = "absolute";
+    }
+
 }
 

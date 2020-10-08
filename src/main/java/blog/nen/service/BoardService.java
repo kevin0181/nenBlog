@@ -60,7 +60,7 @@ public class BoardService {
 
     }
 
-    //해당 글 수정하는 서비스
+    //해당 글 가져오는 서비스
     public BoardDto reviseBoardService(String id, HttpSession session) {
         if (id == null)
             throw new Exception();
@@ -73,6 +73,7 @@ public class BoardService {
         return boardDto;
     }
 
+    //수정하는 서비스
     public void boardUpdateService(BoardDto boardDto, HttpSession session) {
 
         LoginDto loginDto = (LoginDto) session.getAttribute("userLogin");

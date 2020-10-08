@@ -30,6 +30,11 @@ public class BoardDao {
         return results.isEmpty() ? null : results;
     }
 
+    public void insertCategory(BoardDto boardDto, String email) {
+        jdbcTemplate.update("insert into user_category(email, category,CATEGORY_EX) values (?,?,?)",
+                email, boardDto.getBoardCategory(), boardDto.getBoardCategory_Ex());
+    }
+
     //글쓰기 dao
     public boolean inputBoardDao(BoardDto boardDto, String email) {
         try {
@@ -86,7 +91,7 @@ public class BoardDao {
         jdbcTemplate.update("delete from user_board where BOARD_EMAIL = ? and BOARD_ID = ?", email, id);
     }
 
-    //게시물 수정하는 dao
+    //게시물 가져오는 dao
     public BoardDto getBoard(String id, String email) {
         BoardDto boardDto =
                 jdbcTemplate.queryForObject("select * from user_board where BOARD_EMAIL = ? and BOARD_ID = ?",
@@ -105,7 +110,7 @@ public class BoardDao {
                         }, email, id);
         return boardDto;
     }
-
+    //게시물 수정하는 dao
     public void boardUpdate(BoardDto boardDto, String email) {
         jdbcTemplate.update("update user_board set BOARD_TITLE = ?, BOARD_CATEGORY = ?, BOARD_PUBLIC = ?, BOARD_TEXT = ?, BOARD_SAVE = ? " +
                         "where BOARD_ID = ? and BOARD_EMAIL = ?", boardDto.getBoardTitle(), boardDto.getBoardCategory(), boardDto.isBoardPublic(), boardDto.getBoardText(),

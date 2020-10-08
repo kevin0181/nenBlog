@@ -33,6 +33,7 @@ public class LoginService {
 
     }
 
+    //관리자인지 체크하는 부분
     public void userCheckService(String email, HttpSession session) {
         AuthDto authDto = userDao.checkUser(email);
 
