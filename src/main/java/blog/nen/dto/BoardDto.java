@@ -9,7 +9,9 @@ public class BoardDto {
     private Date boardDate;
     @NotBlank
     private String boardTitle;
+    private int category_id;
     private String boardCategory;
+    private String boardCategory_Ex;
     private boolean boardPublic;
     private String boardText;
     private boolean boardSave;
@@ -29,8 +31,26 @@ public class BoardDto {
         this.boardSave = boardSave;
     }
 
-    public BoardDto(String boardCategory) {
+    public BoardDto(int category_id, String boardCategory, String boardCategory_Ex) {
+        this.category_id = category_id;
         this.boardCategory = boardCategory;
+        this.boardCategory_Ex = boardCategory_Ex;
+    }
+
+    public int getCategory_id() {
+        return category_id;
+    }
+
+    public void setCategory_id(int category_id) {
+        this.category_id = category_id;
+    }
+
+    public String getBoardCategory_Ex() {
+        return boardCategory_Ex;
+    }
+
+    public void setBoardCategory_Ex(String boardCategory_Ex) {
+        this.boardCategory_Ex = boardCategory_Ex;
     }
 
     public int getBoardId() {

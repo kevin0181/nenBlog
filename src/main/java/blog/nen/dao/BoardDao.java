@@ -18,10 +18,12 @@ public class BoardDao {
 
     //카테고리 가져오는 부분
     public List<BoardDto> getCategory(String sessionEmail) {
-        List<BoardDto> results = jdbcTemplate.query("select CATEGORY from user_category where EMAIL = ?",
+        List<BoardDto> results = jdbcTemplate.query("select category_id, CATEGORY, CATEGORY_EX from user_category where EMAIL = ?",
                 (ResultSet rs, int rowNum) -> {
                     BoardDto boardDto = new BoardDto(
-                            rs.getString("CATEGORY")
+                            rs.getInt("category_id"),
+                            rs.getString("CATEGORY"),
+                            rs.getString("CATEGORY_EX")
                     );
                     return boardDto;
                 }, sessionEmail);
