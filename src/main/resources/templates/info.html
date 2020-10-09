@@ -61,31 +61,31 @@
     <div id="category-container" style="display: none;">
         <div class="accordion mb-5 mt-3" id="accordionExample">
             <div th:each="category : ${userInfoCategory}">
-                <div class="form-check">
-                    <input class="form-check-input" style="top:28%;" type="checkbox" value="" id="defaultCheck1">
-                    <div class="card">
-                        <div class="card-header" id="headingOne">
-                            <h2 class="mb-0">
-                                <button class="btn btn-block text-left" type="button" data-toggle="collapse"
-                                        th:attr="data-target='#category'+${category.category_id}+'a'"
-                                        aria-expanded="true"
-                                        aria-controls="collapseOne"
-                                        th:text="${category.boardCategory}" onclick="checkSize()">
-                                    카테고리 이름
-                                </button>
-                            </h2>
+                <div class="card">
+                    <div class="card-header" id="headingOne">
+                        <h2 class="mb-0">
+                            <button class="btn text-left" type="button" data-toggle="collapse"
+                                    th:attr="data-target='#category'+${category.category_id}+'a'"
+                                    aria-expanded="true" style="display: inline-block;"
+                                    aria-controls="collapseOne"
+                                    th:text="${category.boardCategory}" onclick="checkSize()">
+                                카테고리 이름
+                            </button>
+                            <button class="float-right btn btn-danger" th:text="#{delete.text}"
+                                    th:onclick="deleteCategory([[${category.category_id}]])"></button>
+                            <!-- 'location.href=\''+@{deleteCategory/{categoryNum} (categoryNum=${category.category_id})}+'\';'-->
+                        </h2>
+                    </div>
+                    <div th:id="'category'+${category.category_id}+'a'" class="collapse"
+                         aria-labelledby="headingOne"
+                         data-parent="#accordionExample">
+                        <div class="card-body" th:if="${category.boardCategory_Ex == null}"
+                             style="display: none;">
+                            설명
                         </div>
-                        <div th:id="'category'+${category.category_id}+'a'" class="collapse"
-                             aria-labelledby="headingOne"
-                             data-parent="#accordionExample">
-                            <div class="card-body" th:if="${category.boardCategory_Ex == null}"
-                                 style="display: none;">
-                                설명
-                            </div>
-                            <div class="card-body" th:if="${category.boardCategory_Ex != null}"
-                                 th:text="${category.boardCategory_Ex}">
-                                설명
-                            </div>
+                        <div class="card-body" th:if="${category.boardCategory_Ex != null}"
+                             th:text="${category.boardCategory_Ex}">
+                            설명
                         </div>
                     </div>
                 </div>
@@ -109,7 +109,6 @@
                 </div>
             </div>
             <button type="submit" class="btn btn-secondary mt-5" th:text="#{addCategory.info.text}"></button>
-            <button type="button" class="btn btn-danger mt-5" th:text="#{delete.category.text}"></button>
         </form>
     </div>
     <!--    수정      -->

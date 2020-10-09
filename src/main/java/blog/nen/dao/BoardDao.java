@@ -110,10 +110,15 @@ public class BoardDao {
                         }, email, id);
         return boardDto;
     }
+
     //게시물 수정하는 dao
     public void boardUpdate(BoardDto boardDto, String email) {
         jdbcTemplate.update("update user_board set BOARD_TITLE = ?, BOARD_CATEGORY = ?, BOARD_PUBLIC = ?, BOARD_TEXT = ?, BOARD_SAVE = ? " +
                         "where BOARD_ID = ? and BOARD_EMAIL = ?", boardDto.getBoardTitle(), boardDto.getBoardCategory(), boardDto.isBoardPublic(), boardDto.getBoardText(),
                 boardDto.isBoardSave(), boardDto.getBoardId(), email);
+    }
+
+    public void deleteCategory(String id, String email) {
+        jdbcTemplate.update("delete from user_category where category_id = ? and EMAIL = ?", id, email);
     }
 }

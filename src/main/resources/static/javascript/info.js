@@ -26,6 +26,7 @@ window.onload = function () {
 }
 
 function infoContainer() {
+
     info.style.display = "block";
     category.style.display = "none";
     editInfo.style.display = "none";
@@ -106,5 +107,10 @@ function checkSize() {
         footer.style.position = "absolute";
     }
 
+}
+
+function deleteCategory(id) {
+
+    location.href = "deleteCategory?id=" + id;
 }
 

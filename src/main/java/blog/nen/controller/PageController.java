@@ -21,6 +21,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
@@ -184,6 +185,33 @@ public class PageController {
 
         return "info";
     }
+
+    @RequestMapping("deleteCategory")
+    public String deleteCategory(@RequestParam("id") String id, @ModelAttribute("boardDto") BoardDto boardDto, HttpSession session, Model model) {
+        try {
+
+            InfoService infoService = ctx.getBean(InfoService.class);
+
+            infoService.deleteCategoryService(id, session);
+
+            SignUpDto userInfo = infoService.selectUserService(session);
+            model.addAttribute("userInfo", userInfo);
+
+            List<BoardDto> userInfoCategory = infoService.selectCategoryService(session);
+            model.addAttribute("userInfoCategory", userInfoCategory);
+
+            String email = getCheckUser();
+            LoginService loginService = ctx.getBean(LoginService.class);
+            loginService.userCheckService(email, session);
+
+
+        } catch (Exception e) {
+            return "error/Exception";
+        }
+
+        return "info";
+    }
+
 
     public void checkUser(String email) {
         this.email = email;

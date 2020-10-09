@@ -62,4 +62,15 @@ public class InfoService {
         boardDao.insertCategory(boardDto, email);
 
     }
+
+    public void deleteCategoryService(String id, HttpSession session) {
+        LoginDto loginDto = (LoginDto) session.getAttribute("userLogin");
+        String email = loginDto.getEmail();
+
+        if (email == null)
+            throw new Exception();
+
+        boardDao.deleteCategory(id, email);
+
+    }
 }
