@@ -1,8 +1,11 @@
 package blog.nen.dao;
 
+import blog.nen.Exception.Exception;
 import blog.nen.dto.AuthDto;
+import blog.nen.dto.ChangeInfoDto;
 import blog.nen.dto.LoginDto;
 import blog.nen.dto.SignUpDto;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import javax.sql.DataSource;
@@ -74,15 +77,44 @@ public class UserDao {
 
     //권한 체크
     public AuthDto checkUser(String email) {
-        AuthDto authDto = jdbcTemplate.queryForObject("select * from USER_AUTH where EMAIL = ?",
-                (ResultSet rs, int rowNum) -> {
-                    AuthDto authDto1 = new AuthDto(
-                            rs.getBoolean(2)
-                    );
-                    return authDto1;
-                }, email);
-        return authDto;
+        try {
+            AuthDto authDto = jdbcTemplate.queryForObject("select * from USER_AUTH where EMAIL = ?",
+                    (ResultSet rs, int rowNum) -> {
+                        AuthDto authDto1 = new AuthDto(
+                                rs.getBoolean(2)
+                        );
+                        return authDto1;
+                    }, email);
+            return authDto;
+        } catch (EmptyResultDataAccessException e) {
+            AuthDto authDto = new AuthDto();
+            authDto.setAuth(false);
+            return authDto;
+        }
     }
 
+    public void UpdateUser(ChangeInfoDto changeInfoDto, String email) {
+        if (changeInfoDto.getPassword() == "") {
+            jdbcTemplate.update("update user_info PHONE=? where email=?", changeInfoDto.getPhone(), email);
+        } else if (changeInfoDto.getPhone() == "") {
+            jdbcTemplate.update("update user_info set PASSWORD = ? where email=?",
+                    changeInfoDto.getPassword(), email);
+        } else if (changeInfoDto.getPassword() == "" && changeInfoDto.getPhone() == "") {
+            throw new Exception();
+        } else {
+            jdbcTemplate.update("update user_info set PASSWORD = ?,PHONE=? where email=?",
+                    changeInfoDto.getPassword(), changeInfoDto.getPhone(), email);
+        }
+    }
+
+    public void deleteUser(String email, String password) {
+
+        jdbcTemplate.update("delete from user_category where email = ?", email);
+
+        jdbcTemplate.update("delete from user_info where EMAIL=? and PASSWORD=?",
+                email, password);
+        jdbcTemplate.update("delete from user_auth where email = ?", email);
+
+    }
 }
 

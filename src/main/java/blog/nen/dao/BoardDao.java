@@ -1,5 +1,6 @@
 package blog.nen.dao;
 
+import blog.nen.Exception.Exception;
 import blog.nen.dto.BoardDto;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -121,4 +122,5 @@ public class BoardDao {
     public void deleteCategory(String id, String email) {
         jdbcTemplate.update("delete from user_category where category_id = ? and EMAIL = ?", id, email);
     }
+
 }

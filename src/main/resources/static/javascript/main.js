@@ -4,7 +4,7 @@ window.onload = function () {
     var mainHeight = document.getElementById("main-height").valueOf();
     var footer = document.getElementById("footer").valueOf();
 
-    if (mainHeight.clientHeight > 700) {
+    if (mainHeight.clientHeight > 600) {
         footer.style.position = "static";
     }
 }

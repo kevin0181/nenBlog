@@ -8,6 +8,7 @@ import blog.nen.config.BoardConfig;
 import blog.nen.config.DBConfig;
 import blog.nen.config.UserConfig;
 import blog.nen.dto.BoardDto;
+import blog.nen.dto.ChangeInfoDto;
 import blog.nen.dto.LoginDto;
 import blog.nen.dto.SignUpDto;
 import blog.nen.service.BoardService;
@@ -33,6 +34,7 @@ public class PageController {
     private String email;
 
     private final AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext(UserConfig.class, BoardConfig.class, DBConfig.class);
+    InfoService infoService = ctx.getBean(InfoService.class);
 
     @RequestMapping("/")
     public String startPage(@ModelAttribute("loginDto") LoginDto loginDto) {
@@ -135,83 +137,134 @@ public class PageController {
     }
 
     @RequestMapping("info")
-    public String info(@ModelAttribute("boardDto") BoardDto boardDto, Model model, HttpSession session) {
+    public String info(Model model, HttpSession session) {
 
         try {
-            InfoService infoService = ctx.getBean(InfoService.class);
-
             SignUpDto userInfo = infoService.selectUserService(session);
             model.addAttribute("userInfo", userInfo);
 
             List<BoardDto> userInfoCategory = infoService.selectCategoryService(session);
             model.addAttribute("userInfoCategory", userInfoCategory);
+
+            check(session);
+
         } catch (Exception e) {
             return "error/Exception";
         } catch (NullPointerException e) {
             return "error/Exception";
         }
 
-        return "info";
+        return "info/info";
     }
+
+    @RequestMapping("infoCategory")
+    public String infoCategory(@ModelAttribute("boardDto") BoardDto boardDto, Model model, HttpSession session) {
+
+        List<BoardDto> userInfoCategory = infoService.selectCategoryService(session);
+        model.addAttribute("userInfoCategory", userInfoCategory);
+
+        check(session);
+
+        return "info/info-category";
+    }
+
 
     @RequestMapping("addCategory")
     public String addCategory(@Valid BoardDto boardDto, BindingResult bindingResult, HttpSession session, Model model) {
 
+        if (boardDto.getBoardCategory() == "") {
+            List<BoardDto> userInfoCategory = infoService.selectCategoryService(session);
+            model.addAttribute("userInfoCategory", userInfoCategory);
+            return "info/info-category";
+        }
+
         try {
-
-
-            InfoService infoService = ctx.getBean(InfoService.class);
 
             infoService.insertCategoryService(boardDto, session);
 
-            SignUpDto userInfo = infoService.selectUserService(session);
-            model.addAttribute("userInfo", userInfo);
-
             List<BoardDto> userInfoCategory = infoService.selectCategoryService(session);
             model.addAttribute("userInfoCategory", userInfoCategory);
 
-            String email = getCheckUser();
-            LoginService loginService = ctx.getBean(LoginService.class);
-            loginService.userCheckService(email, session);
-
-            if (bindingResult.hasErrors()) {
-                return "info";
-            }
-
+            check(session);
 
         } catch (Exception e) {
             return "error/Exception";
         }
 
-        return "info";
+        return "info/info-category";
     }
 
     @RequestMapping("deleteCategory")
-    public String deleteCategory(@RequestParam("id") String id, @ModelAttribute("boardDto") BoardDto boardDto, HttpSession session, Model model) {
+    public String deleteCategory(@RequestParam("id") String id, @ModelAttribute("boardDto") BoardDto boardDto
+            , HttpSession session, Model model) {
         try {
 
-            InfoService infoService = ctx.getBean(InfoService.class);
-
             infoService.deleteCategoryService(id, session);
-
-            SignUpDto userInfo = infoService.selectUserService(session);
-            model.addAttribute("userInfo", userInfo);
 
             List<BoardDto> userInfoCategory = infoService.selectCategoryService(session);
             model.addAttribute("userInfoCategory", userInfoCategory);
 
-            String email = getCheckUser();
-            LoginService loginService = ctx.getBean(LoginService.class);
-            loginService.userCheckService(email, session);
-
+            check(session);
 
         } catch (Exception e) {
             return "error/Exception";
         }
 
-        return "info";
+        return "info/info-category";
     }
 
+    @RequestMapping("infoChange")
+    public String infoChange(@ModelAttribute("changeInfoDto") ChangeInfoDto changeInfoDto, HttpSession session) {
+
+        check(session);
+        return "info/info-change";
+    }
+
+    @RequestMapping("infoDelete")
+    public String infoDelete(@ModelAttribute("loginDto") LoginDto loginDto, HttpSession session) {
+
+        check(session);
+
+        return "info/info-delete";
+    }
+
+    private void check(HttpSession session) {
+        String email = getCheckUser();
+        LoginService loginService = ctx.getBean(LoginService.class);
+        loginService.userCheckService(email, session);
+    }
+
+    @RequestMapping("infoChangePost")
+    public String infoChangePost(@Valid ChangeInfoDto ChangeInfoDto, BindingResult bindingResult, HttpSession session, Model model) {
+
+        if (bindingResult.hasErrors()) {
+            return "info/info-change";
+        }
+
+        infoService.updateUserService(ChangeInfoDto, session);
+
+        SignUpDto userInfo = infoService.selectUserService(session);
+        model.addAttribute("userInfo", userInfo);
+
+        List<BoardDto> userInfoCategory = infoService.selectCategoryService(session);
+        model.addAttribute("userInfoCategory", userInfoCategory);
+
+        check(session);
+        return "info/info";
+    }
+
+    @RequestMapping("infoDeletePost")
+    public String infoDeletePost(LoginDto loginDto, BindingResult bindingResult, HttpSession session, Model model) {
+        try {
+            infoService.userDeleteService(loginDto, session);
+        } catch (WrongException e) {
+            bindingResult.rejectValue("ErrorCode", "Wrong.Error");
+            return "info/info-delete";
+        } catch (Exception e) {
+            return "error/Exception";
+        }
+        return "index";
+    }
 
     public void checkUser(String email) {
         this.email = email;

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/info-layout}">
+<head>
+    <meta charset="UTF-8">
+    <title>내 정보</title>
+</head>
+<div layout:fragment="content" class="container mt-60px content-con" id="info-height">
+    <div class="btn-group mb-3">
+        <button type="button" class="btn btn-info" th:text="#{info.text}" onclick="infoContainer()"></button>
+        <button type="button" class="btn btn-info dropdown-toggle dropdown-toggle-split" data-toggle="dropdown"
+                aria-haspopup="true" aria-expanded="false">
+            <span class="sr-only"></span>
+        </button>
+        <div class="dropdown-menu">
+            <a class="dropdown-item" th:if="${session.user_Auth == true}" th:text="#{addCategory.info.text}"
+               onclick="categoryContainer()"></a>
+            <div class="dropdown-divider" th:if="${session.user_Auth == true}"></div>
+            <a class="dropdown-item" th:text="#{edit.info.text}" onclick="editContainer()"></a>
+            <a class="dropdown-item" th:text="#{delete.info.text}" onclick="deleteContainer()"></a>
+        </div>
+    </div>
+    <div id="info-container">
+        <div class="container" style="margin-bottom: 100px;">
+            <p th:text="#{email}"></p>
+            <div class="alert alert-secondary mb-3" role="alert" th:text="${userInfo.email}">
+                email
+            </div>
+            <p th:text="#{phone}"></p>
+            <div class="alert alert-secondary" role="alert" style="margin-bottom: 30px;"
+                 th:text="${userInfo.phone}">
+                phone number
+            </div>
+            <div class="accordion" id="accordionExample" th:if="${session.user_Auth == true}">
+                <div class="card" th:each="category : ${userInfoCategory}">
+                    <div class="card-header" id="headingOne">
+                        <h2 class="mb-0">
+                            <button class="btn btn-block text-left" type="button" data-toggle="collapse"
+                                    th:attr="data-target='#category'+${category.category_id}" aria-expanded="true"
+                                    aria-controls="collapseOne"
+                                    th:text="${category.boardCategory}">
+                                카테고리 이름
+                            </button>
+                        </h2>
+                    </div>
+                    <div th:id="'category'+${category.category_id}" class="collapse" aria-labelledby="headingOne"
+                         data-parent="#accordionExample">
+                        <div class="card-body" th:if="${category.boardCategory_Ex == null}" style="display: none;">
+                            설명
+                        </div>
+                        <div class="card-body" th:if="${category.boardCategory_Ex != null}"
+                             th:text="${category.boardCategory_Ex}">
+                            설명
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</html>

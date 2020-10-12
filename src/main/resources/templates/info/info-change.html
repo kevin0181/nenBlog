@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/info-layout}">
+<head>
+    <meta charset="UTF-8">
+    <title>내 정보 수정</title>
+</head>
+<!--    수정      -->
+<div layout:fragment="content" class="container mt-60px content-con" id="info-height">
+    <div>
+        <div class="btn-group mb-3">
+            <button type="button" class="btn btn-info" th:text="#{info.text}" onclick="infoContainer()"></button>
+            <button type="button" class="btn btn-info dropdown-toggle dropdown-toggle-split" data-toggle="dropdown"
+                    aria-haspopup="true" aria-expanded="false">
+                <span class="sr-only"></span>
+            </button>
+            <div class="dropdown-menu">
+                <a class="dropdown-item" th:if="${session.user_Auth == true}" th:text="#{addCategory.info.text}"
+                   onclick="categoryContainer()"></a>
+                <div class="dropdown-divider" th:if="${session.user_Auth == true}"></div>
+                <a class="dropdown-item" th:text="#{edit.info.text}" onclick="editContainer()"></a>
+                <a class="dropdown-item" th:text="#{delete.info.text}" onclick="deleteContainer()"></a>
+            </div>
+        </div>
+        <div id="edit-container" th:object="${changeInfoDto}">
+            <form th:action="@{infoChangePost}" method="post">
+                <div class="form-group">
+                    <label for="edit-email" th:text="#{email}">Email address</label>
+                    <input type="email" class="form-control" id="edit-email" th:value="${session.userLogin.email}"
+                           disabled>
+                </div>
+                <div class="form-group">
+                    <label for="edit-password" th:text="#{password.change}">Password</label>
+                    <input type="password" class="form-control" id="edit-password" th:field="*{password}">
+                    <small th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="text-danger"></small>
+                </div>
+                <div class="form-group">
+                    <label for="edit-phone" th:text="#{phone.change}">Password</label>
+                    <input type="password" class="form-control" id="edit-phone" th:field="*{phone}">
+                    <small th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}" class="text-danger"></small>
+                </div>
+                <button type="submit" class="btn btn-primary" th:text="#{edit.text}"></button>
+            </form>
+        </div>
+    </div>
+</div>
+</html>

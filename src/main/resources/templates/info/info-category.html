@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/info-layout}">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<div layout:fragment="content" class="container mt-60px content-con" id="info-height">
+    <div>
+        <div class="btn-group mb-3">
+            <button type="button" class="btn btn-info" th:text="#{info.text}" onclick="infoContainer()"></button>
+            <button type="button" class="btn btn-info dropdown-toggle dropdown-toggle-split" data-toggle="dropdown"
+                    aria-haspopup="true" aria-expanded="false">
+                <span class="sr-only"></span>
+            </button>
+            <div class="dropdown-menu">
+                <a class="dropdown-item" th:if="${session.user_Auth == true}" th:text="#{addCategory.info.text}"
+                   onclick="categoryContainer()"></a>
+                <div class="dropdown-divider" th:if="${session.user_Auth == true}"></div>
+                <a class="dropdown-item" th:text="#{edit.info.text}" onclick="editContainer()"></a>
+                <a class="dropdown-item" th:text="#{delete.info.text}" onclick="deleteContainer()"></a>
+            </div>
+        </div>
+    </div>
+    <div id="category-container">
+        <div class="accordion mb-5 mt-3" id="accordionExample">
+            <div th:each="category : ${userInfoCategory}">
+                <div class="card">
+                    <div class="card-header" id="headingOne">
+                        <h2 class="mb-0">
+                            <button class="btn text-left" type="button" data-toggle="collapse"
+                                    th:attr="data-target='#category'+${category.category_id}+'a'"
+                                    aria-expanded="true" style="display: inline-block;"
+                                    aria-controls="collapseOne"
+                                    th:text="${category.boardCategory}" onclick="checkSize()">
+                                카테고리 이름
+                            </button>
+                            <button class="float-right btn btn-danger" th:text="#{delete.text}"
+                                    th:onclick="deleteCategory([[${category.category_id}]])"></button>
+                            <!-- 'location.href=\''+@{deleteCategory/{categoryNum} (categoryNum=${category.category_id})}+'\';'-->
+                        </h2>
+                    </div>
+                    <div th:id="'category'+${category.category_id}+'a'" class="collapse"
+                         aria-labelledby="headingOne"
+                         data-parent="#accordionExample">
+                        <div class="card-body" th:if="${category.boardCategory_Ex == null}"
+                             style="display: none;">
+                            설명
+                        </div>
+                        <div class="card-body" th:if="${category.boardCategory_Ex != null}"
+                             th:text="${category.boardCategory_Ex}">
+                            설명
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="category-submit">
+        <form th:action="@{addCategory}" method="post" th:object="${boardDto}">
+            <div class="row">
+                <div class="col">
+                    <input type="text" class="form-control" id="category-input-email"
+                           th:placeholder="#{board.category}"
+                           th:field="*{boardCategory}">
+                    <small th:if="${#fields.hasErrors('boardCategory')}" th:errors="*{boardCategory}"
+                           class="text-danger"></small>
+                </div>
+                <div class="col">
+                    <input type="text" class="form-control" id="category-input-password"
+                           th:placeholder="#{info.category.exText}"
+                           th:field="*{boardCategory_Ex}">
+                </div>
+            </div>
+            <button type="submit" class="btn btn-secondary mt-5" th:text="#{addCategory.info.text}"></button>
+        </form>
+    </div>
+</div>
+</html>

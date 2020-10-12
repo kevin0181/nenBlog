@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/info-layout}">
+<head>
+    <meta charset="UTF-8">
+    <title>내 정보 삭제</title>
+</head>
+<div layout:fragment="content" class="container mt-60px content-con" id="info-height">
+    <div>
+        <div class="btn-group mb-3">
+            <button type="button" class="btn btn-info" th:text="#{info.text}" onclick="infoContainer()"></button>
+            <button type="button" class="btn btn-info dropdown-toggle dropdown-toggle-split" data-toggle="dropdown"
+                    aria-haspopup="true" aria-expanded="false">
+                <span class="sr-only"></span>
+            </button>
+            <div class="dropdown-menu">
+                <a class="dropdown-item" th:if="${session.user_Auth == true}" th:text="#{addCategory.info.text}"
+                   onclick="categoryContainer()"></a>
+                <div class="dropdown-divider" th:if="${session.user_Auth == true}"></div>
+                <a class="dropdown-item" th:text="#{edit.info.text}" onclick="editContainer()"></a>
+                <a class="dropdown-item" th:text="#{delete.info.text}" onclick="deleteContainer()"></a>
+            </div>
+        </div>
+    </div>
+    <!--    삭제      -->
+    <div id="delete-container">
+        <div class="alert alert-danger" role="alert" th:text="#{delete.info.dangerMessage}"></div>
+        <form th:object="${loginDto}" th:action="@{infoDeletePost}" method="post">
+            <div class="form-group">
+                <label for="delete-email" th:text="#{email}">Email address</label>
+                <input type="email" class="form-control" id="delete-email" th:value="${session.userLogin.email}"
+                       disabled>
+            </div>
+            <div class="form-group">
+                <label for="delete-passowrd" th:text="#{password}">Password</label>
+                <input type="password" class="form-control" id="delete-passowrd" th:field="*{password}">
+                <small th:if="${#fields.hasErrors('ErrorCode')}" th:errors="*{ErrorCode}" class="text-danger"></small>
+            </div>
+            <button type="submit" class="btn btn-primary" th:text="#{delete.info.text}"></button>
+        </form>
+    </div>
+</div>
+</html>

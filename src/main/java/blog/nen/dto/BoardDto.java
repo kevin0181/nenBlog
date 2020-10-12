@@ -12,6 +12,7 @@ public class BoardDto {
     private int category_id;
     @NotBlank
     private String boardCategory;
+
     private String boardCategory_Ex;
     private boolean boardPublic;
     private String boardText;

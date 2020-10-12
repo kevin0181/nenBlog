@@ -8,6 +8,10 @@ public class AuthDto {
         this.auth = auth;
     }
 
+    public AuthDto() {
+
+    }
+
     public boolean isAuth() {
         return auth;
     }

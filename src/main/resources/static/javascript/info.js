@@ -1,21 +1,10 @@
-var info;
-var category;
-var editInfo;
-var deleteInfo;
 var infoHeight;
 var footer;
-var categorySubmit;
 
 window.onload = function () {
-    info = document.getElementById("info-container").valueOf();
-    category = document.getElementById("category-container").valueOf();
-    categorySubmit = document.getElementById("category-submit").valueOf();
-    editInfo = document.getElementById("edit-container").valueOf();
-    deleteInfo = document.getElementById("delete-container").valueOf();
 
     document.getElementById("category-input-email").value = '';
     document.getElementById("category-input-password").value = '';
-
 
     infoHeight = document.getElementById("info-height").valueOf();
     footer = document.getElementById("footer").valueOf();
@@ -27,12 +16,6 @@ window.onload = function () {
 
 function infoContainer() {
 
-    info.style.display = "block";
-    category.style.display = "none";
-    editInfo.style.display = "none";
-    deleteInfo.style.display = "none";
-    categorySubmit.style.display = "none";
-
     infoHeight = document.getElementById("info-height").valueOf();
     footer = document.getElementById("footer").valueOf();
 
@@ -43,11 +26,6 @@ function infoContainer() {
 }
 
 function categoryContainer() {
-    info.style.display = "none";
-    category.style.display = "block";
-    categorySubmit.style.display = "block";
-    editInfo.style.display = "none";
-    deleteInfo.style.display = "none";
 
     infoHeight = document.getElementById("info-height").valueOf();
     footer = document.getElementById("footer").valueOf();
@@ -57,15 +35,12 @@ function categoryContainer() {
     } else {
         footer.style.position = "absolute";
     }
+
+    location.href = 'infoCategory';
 
 }
 
 function editContainer() {
-    info.style.display = "none";
-    category.style.display = "none";
-    categorySubmit.style.display = "none";
-    editInfo.style.display = "block";
-    deleteInfo.style.display = "none";
 
     infoHeight = document.getElementById("info-height").valueOf();
     footer = document.getElementById("footer").valueOf();
@@ -75,15 +50,12 @@ function editContainer() {
     } else {
         footer.style.position = "absolute";
     }
+
+    location.href = 'infoChange';
 
 }
 
 function deleteContainer() {
-    info.style.display = "none";
-    category.style.display = "none";
-    categorySubmit.style.display = "none";
-    editInfo.style.display = "none";
-    deleteInfo.style.display = "block";
 
     infoHeight = document.getElementById("info-height").valueOf();
     footer = document.getElementById("footer").valueOf();
@@ -93,6 +65,8 @@ function deleteContainer() {
     } else {
         footer.style.position = "absolute";
     }
+
+    location.href = 'infoDelete';
 
 }
 
