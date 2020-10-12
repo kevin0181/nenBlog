@@ -6,7 +6,7 @@
     <title>넨이의 블로그 글쓰기</title>
     <link href="css/board.css">
 </head>
-<div layout:fragment="content" class="container mt-60px">
+<div layout:fragment="content" class="container mt-60px" id="main-height">
     <form action="#" th:action="@{revise_board}" method="post" th:object="${boardDto}">
         <div class="form-group">
             <input type="text" hidden="hidden" th:field="*{boardId}">
